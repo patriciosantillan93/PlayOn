@@ -1,0 +1,19 @@
+/* app/Home.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh; /* Full viewport height */
+    text-align: center; /* Center text */
+  }
+  
+  .heading {
+    margin-bottom: 1rem; /* Spacing below the heading */
+  }
+  
+  .paragraph {
+    font-size: 1.2rem; /* Larger font size for paragraph */
+  }
+  
