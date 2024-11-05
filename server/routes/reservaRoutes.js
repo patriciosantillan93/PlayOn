@@ -1,7 +1,7 @@
 
 // server/routes/reservaRoutes.js
 const express = require('express');
-const { createReserva, getReservasByUser, getReservasByCancha, deleteReserva } = require('../controllers/reservaController');
+const { createReserva, getReservasByUser, getReservasByCancha, deleteReserva } = require('server/controllers/reservaController');
 const router = express.Router();
 
 router.post('/', createReserva);

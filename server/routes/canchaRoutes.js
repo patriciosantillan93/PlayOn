@@ -1,6 +1,6 @@
 // server/routes/canchaRoutes.js
 const express = require('express');
-const { getAllCanchas, getCanchaById, createCancha, updateCancha, deleteCancha } = require('../controllers/canchaController');
+const { getAllCanchas, getCanchaById, createCancha, updateCancha, deleteCancha } = require('server/controllers/canchaController');
 const router = express.Router();
 
 router.get('/', getAllCanchas);

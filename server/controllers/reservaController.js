@@ -1,7 +1,7 @@
 // server/controllers/reservaController.js
-const Reserva = require('../models/Reserva');
-const Cancha = require('../models/Cancha');
-const User = require('../models/User');
+const Reserva = require('server/models/Reserva');
+const Cancha = require('server/models/Cancha');
+const User = require('server/models/User');
 
 exports.createReserva = async (req, res) => {
     try {

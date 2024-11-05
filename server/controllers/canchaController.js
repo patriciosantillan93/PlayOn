@@ -1,5 +1,5 @@
 // server/controllers/canchaController.js
-const Cancha = require('../models/Cancha');
+const Cancha = require('server/models/Cancha');
 
 exports.getAllCanchas = async (req, res) => {
     try {

@@ -5,14 +5,14 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-const sequelize = require('./config/database');
-const authRoutes = require('./routes/authRoutes');
-const canchaRoutes = require('./routes/canchaRoutes');
-const reservaRoutes = require('./routes/reservaRoutes');
+const sequelize = require('server/config/database');
+const authRoutes = require('server/routes/authRoutes');
+const canchaRoutes = require('server/routes/canchaRoutes');
+const reservaRoutes = require('server/routes/reservaRoutes');
 
-const Cancha = require('./models/Cancha'); 
-const Reserva = require('./models/Reserva'); 
-const User = require('./models/User'); 
+const Cancha = require('server/models/Cancha'); 
+const Reserva = require('server/models/Reserva'); 
+const User = require('server/models/User'); 
 
 const app = express();
 
