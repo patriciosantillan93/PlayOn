@@ -1,0 +1,13 @@
+/* app/components/Footer.module.css */
+
+.footer {
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically (if needed) */
+  padding: 1rem; /* Add some padding */
+  background-color: #f8f9fa; /* Optional: background color */
+}
+
+.footerText { /* Add a class for the paragraph text */
+  margin: 0; /* Remove default margin */
+}
