@@ -18,7 +18,7 @@ const Scheduler: React.FC<SchedulerProps> = ({ title, content, imageUrl }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const router = useRouter();  // Now we can safely use useRouter here
+  // router = useRouter();  // Now we can safely use useRouter here
 
   const timeSlots = ["8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM"];
 
