@@ -1,8 +1,7 @@
-// app/components/Login.tsx
-
 "use client"
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Import useRouter from next/navigation
 import styles from './Login.module.css'; // Import your CSS module
 
 const Login: React.FC = () => {
@@ -10,6 +9,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const router = useRouter(); // Initialize the router
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,12 @@ const Login: React.FC = () => {
       if (response.ok) {
         const result = await response.json();
         setMessage('Login successful!');
-        // Redirect or store token as needed
+
+        // Store the token in localStorage
+        localStorage.setItem("authToken", result.token);  // Save the token
+
+        // Redirect to the complete reservation page
+        router.push("/complete-reservation"); // Redirect to desired page after login
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to log in");
@@ -67,8 +72,8 @@ const Login: React.FC = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-       Don't have an account? <a href="/register">Register here</a>
-       </p>
+        Don't have an account? <a href="/register">Register here</a>
+      </p>
     </div>
   );
 };

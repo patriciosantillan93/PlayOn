@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+"use client"
+// components/TimeSlotGrid.tsx
+import React from 'react';
 
 interface TimeSlotGridProps {
   selectedDate: Date | null;
@@ -7,6 +9,7 @@ interface TimeSlotGridProps {
   setSelectedDate: (date: Date | null) => void;
   dates: Date[]; // List of dates passed in as a prop
   timeSlots: string[]; // List of time slots passed in as a prop
+  openModal: (time: string) => void; // Function passed from Scheduler component
 }
 
 const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({ 
@@ -15,9 +18,9 @@ const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
   setSelectedTime, 
   setSelectedDate, 
   dates, 
-  timeSlots 
+  timeSlots, 
+  openModal // Destructure openModal here
 }) => {
-  
   return (
     <div className="time-slot-grid">
       <div className="grid grid-cols-5 gap-4">
@@ -33,6 +36,7 @@ const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
                   onClick={() => {
                     setSelectedTime(time);
                     setSelectedDate(date);
+                    openModal(time); // Call openModal when a time is selected
                   }}
                   className={`time-slot-button ${selectedTime === time && selectedDate?.getTime() === date.getTime() ? 'selected' : ''}`}
                 >

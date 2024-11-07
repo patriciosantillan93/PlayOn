@@ -1,14 +1,20 @@
-// ExamplePage.tsx
-
 "use client";
 
 import React, { useState } from 'react';
 import Scheduler from '../components/scheduler';
 
+// Define the type for scheduler data
+interface SchedulerData {
+  title: string;
+  content: string;
+  imageUrl: string;
+}
+
 const ExamplePage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const schedulersData = [
+  // Data for the schedulers
+  const schedulersData: SchedulerData[] = [
     {
       title: "Cancha 2 Padel",
       content: "Techada - Con Luz - Piso",
@@ -31,12 +37,12 @@ const ExamplePage = () => {
       {/* Left Column - Scheduler List */}
       <div className="w-2/3 p-4 overflow-y-auto">
         <ul className="space-y-4">
-          {schedulersData.map((schedulerData, index) => (
+          {schedulersData.map((scheduler, index) => (
             <li key={index} className="bg-white p-4 rounded-lg shadow-md">
               <Scheduler
-                title={schedulerData.title}
-                content={schedulerData.content}
-                imageUrl={schedulerData.imageUrl}
+                title={scheduler.title}
+                content={scheduler.content}
+                imageUrl={scheduler.imageUrl}
               />
             </li>
           ))}
