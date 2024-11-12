@@ -1,49 +1,31 @@
-"use client"
+import React from 'react';
+import ReservationSummary from '../components/ReservationSummary';
+import PersonalInformation from '../components/PersonalInformation';
+import Modal from './Modal';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from './CompleteReservation.module.css'; // Import your CSS module
-import ReservationSummary from '../components/ReservationSummary'; // Import the component for reservation summary
-import ReservationActions from '../components/ReservationActions'; // Import actions (confirm, cancel, etc.)
-
-const CompleteReservation: React.FC = () => {
-  const router = useRouter();
-  const [reservationData, setReservationData] = useState<any>(null);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    // Check if the user is logged in by verifying the token
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      // If no token, redirect to the login page
-      router.push("/login");
-    } else {
-      // Use placeholder data for reservation
-      setReservationData({
-        id: 1,
-        field: 'Soccer Field A',
-        date: '2024-11-15',
-        time: '3:00 PM - 4:00 PM',
-        user: 'John Doe',
-        status: 'Pending',
-      });
-    }
-  }, [router]);
-
+const ReservationConfirmation: React.FC = () => {
   return (
-    <div className={styles.container}>
-      <h2>Complete Your Reservation</h2>
-      {error && <p className={styles.error}>{error}</p>}
-      {reservationData ? (
-        <>
-          <ReservationSummary data={reservationData} /> {/* Reservation summary component */}
-          <ReservationActions /> {/* Actions (confirm, cancel, etc.) */}
-        </>
-      ) : (
-        <p>Loading reservation details...</p>
-      )}
+    <div className="min-h-screen flex flex-col items-center bg-gray-100">
+      <h1 className="text-2xl font-bold mt-8">Ya casi terminamos!</h1>
+      <p className="text-gray-600 mb-8">
+        Para completar tu reserva en Hay Equipo FS, por favor chequeá tus datos y luego confirmá.
+      </p>
+
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 flex space-x-6">
+        <ReservationSummary />
+        <PersonalInformation />
+      </div>
+
+      <p className="text-center text-gray-500 mt-4 text-sm">
+        Algunos clubes pueden solicitar una seña para confirmar la reserva. Cada club tiene su propia política de cancelación, por lo que recomendamos hacerlo con 24 horas de anticipación para evitar penalizaciones.
+      </p>
+
+      <button className="mt-6 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+        Confirmar reserva
+      </button>
+
     </div>
   );
 };
 
-export default CompleteReservation;
+export default ReservationConfirmation;

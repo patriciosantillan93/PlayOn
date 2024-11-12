@@ -4,6 +4,7 @@ import React from 'react';
 import Header from './components/header';
 import Footer from './components/footer';
 import '../styles/globals.css';
+// import { AuthProvider } from '../context/AuthContext';
 
 export const metadata = {
   title: 'PlayOn',
@@ -14,11 +15,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-1 flex justify-center items-center px-4 py-8 bg-gray-100">
-          {children}
-        </main>
-        <Footer />
+          <Header />
+          <main className="flex-1 flex justify-center items-center px-4 py-8 bg-gray-100">
+            {children}
+          </main>
+          <Footer />
       </body>
     </html>
   );
