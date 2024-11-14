@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import Scheduler from '../components/scheduler';
+import Scheduler from '../../components/scheduler';
 
 // Define the type for scheduler data
 interface SchedulerData {
@@ -11,7 +11,7 @@ interface SchedulerData {
 }
 
 const ExamplePage = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   // Data for the schedulers
   const schedulersData: SchedulerData[] = [

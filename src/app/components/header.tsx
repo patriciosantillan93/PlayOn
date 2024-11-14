@@ -7,8 +7,6 @@ import styles from './Header.module.css'; // Assuming you have a CSS module for 
 const handleLogout = () => {
   // Remove the authentication token from localStorage or sessionStorage
   localStorage.removeItem("authToken");  // If you're using localStorage
-  // Or, if you're using sessionStorage:
-  // sessionStorage.removeItem("authToken");
   
   // Redirect to the login page after logout
   window.location.href = "/login";  // Or use a route in your Next.js app
