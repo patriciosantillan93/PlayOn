@@ -20,7 +20,6 @@ interface LoginFormProps {
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const { toast } = useToast();
 
   const form = useForm<LoginFormValues>({
@@ -33,7 +32,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    setError('');  // Clear previous errors
   
     const loginData = { email: data.email, password: data.password };
   
@@ -46,8 +44,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         body: JSON.stringify(loginData),
       });
   
+      // Log the full response object to inspect its contents
+      console.log('Response:', response);
+  
       if (response.ok) {
         const result = await response.json();
+        console.log('Login successful:', result); // Log the successful result
+  
         toast({
           title: 'Success',
           description: 'You have successfully logged in.',
@@ -55,9 +58,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   
         localStorage.setItem('authToken', result.token);
         onSuccess();
-        // onClose();
       } else {
         const errorData = await response.json();
+        console.log('Error response:', errorData); // Log the error data
+  
         toast({
           title: 'Error',
           description: errorData.error || 'Failed to log in',
@@ -65,6 +69,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         });
       }
     } catch (error) {
+      console.error('Network error or server not available:', error); // Log network errors
       toast({
         title: 'Error',
         description: 'Network error or server is not available.',
@@ -74,7 +79,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -87,7 +92,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
               <FormControl>
                 <Input placeholder="email@example.com" {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage>{form.formState.errors.email?.message}</FormMessage>
             </FormItem>
           )}
         />
@@ -100,7 +105,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
               <FormControl>
                 <Input type="password" placeholder="••••••" {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage>{form.formState.errors.password?.message}</FormMessage>
             </FormItem>
           )}
         />

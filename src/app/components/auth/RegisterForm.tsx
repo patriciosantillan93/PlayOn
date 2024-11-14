@@ -5,7 +5,7 @@ import * as z from 'zod';
 import { useToast } from '../../hooks/use-toast';
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
+  username: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
@@ -27,10 +27,9 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: '',
+      username: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
@@ -38,6 +37,12 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     setIsLoading(true);
     try {
       // TODO: Implement actual registration logic
+      const response = await fetch("http://localhost:5000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
       console.log('Register:', data);
       toast({
         title: 'Success',
@@ -52,6 +57,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       });
     } finally {
       setIsLoading(false);
+      console.log(Response);
     }
   };
 
@@ -59,16 +65,16 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-1">
         <label htmlFor="name" className="block text-sm font-semibold">
-          Name
+        username
         </label>
         <input
-          id="name"
+          id="username"
           placeholder="John Doe"
-          {...form.register('name')}
+          {...form.register('username')}
           className="w-full p-2 border rounded"
         />
-        {form.formState.errors.name && (
-          <p className="text-red-500 text-xs">{form.formState.errors.name.message}</p>
+        {form.formState.errors.username && (
+          <p className="text-red-500 text-xs">{form.formState.errors.username.message}</p>
         )}
       </div>
 

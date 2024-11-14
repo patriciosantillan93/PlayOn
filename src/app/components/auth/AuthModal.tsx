@@ -3,7 +3,6 @@ import { Dialog, DialogContent } from '../../components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
-
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,7 +24,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
             <LoginForm onSuccess={onClose} />
           </TabsContent>
           <TabsContent value="register">
-            <RegisterForm onSuccess={() => setActiveTab('login')} />
+            <RegisterForm onSuccess={onClose} />
           </TabsContent>
         </Tabs>
       </DialogContent>
