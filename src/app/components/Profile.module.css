@@ -1,0 +1,85 @@
+.profile-card {
+    background-color: var(--background);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-card h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .input-group p,
+  .input-group input {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .input-group input[type="text"],
+  .input-group input[type="tel"],
+  .input-group input[type="date"] {
+    border: 1px solid #ccc;
+    background-color: #f9fafb;
+  }
+  
+  .input-group input[type="file"] {
+    padding: 6px;
+    background-color: #f9fafb;
+  }
+  
+  .profile-image {
+    max-width: 200px;
+    height: auto;
+    border-radius: 50%;
+    margin-top: 12px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .button-group button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    background-color: #4338ca;
+  }
+  
+  .button-group button:disabled {
+    background-color: #e5e7eb;
+    cursor: not-allowed;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .profile-card {
+      background-color: var(--foreground);
+      color: var(--background);
+    }
+  }
+  

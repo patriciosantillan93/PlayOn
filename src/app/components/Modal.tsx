@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation'
+import { usedSharedState } from '@/context/useSharedState';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,6 +13,9 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedTime, selectedDate }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
+  const {userData, setUserData} = usedSharedState()
+
 
   useEffect(() => {
     // Assuming there's a way to check if the user is authenticated
@@ -24,12 +29,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedTime, selectedDa
   const formattedDate = selectedDate ? selectedDate.toLocaleDateString() : "Not selected";
 
   const handleConfirm = () => {
+    setUserData("holita")
     if (!isAuthenticated) {
       // If not authenticated, redirect to login
-      window.location.href = "/login";  // Change to your login page path
+      router.push("/login") ;  // Change to your login page path
     } else {
       // After login, this page will be accessed; we can redirect to the completion page
-      window.location.href = "/complete-reservation";  // Adjust to your confirmation page
+      router.push("/complete-reservation");  // Adjust to your confirmation page
     }
   };
 

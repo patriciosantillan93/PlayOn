@@ -2,8 +2,10 @@ import React from 'react';
 import ReservationSummary from '../components/ReservationSummary';
 import PersonalInformation from '../components/PersonalInformation';
 import Modal from './Modal';
+import { usedSharedState } from '@/context/useSharedState';
 
 const ReservationConfirmation: React.FC = () => {
+  const {userData, setUserData} = usedSharedState() 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100">
       <h1 className="text-2xl font-bold mt-8">Ya casi terminamos!</h1>
@@ -14,6 +16,8 @@ const ReservationConfirmation: React.FC = () => {
       <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 flex space-x-6">
         <ReservationSummary />
         <PersonalInformation />
+        <p>{userData}</p>
+
       </div>
 
       <p className="text-center text-gray-500 mt-4 text-sm">
