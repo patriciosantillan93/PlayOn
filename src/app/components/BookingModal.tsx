@@ -11,6 +11,8 @@ import { Field, TimeSlot } from '../types';
 import { cn } from '../lib/utils';
 import { useToast } from '../hooks/use-toast';
 import { useAuth } from '../hooks/use-auth';
+import { DayPicker } from 'react-day-picker';
+import "react-day-picker/style.css";
 
 interface BookingModalProps {
   field: Field | null;
@@ -49,8 +51,6 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
       }));
     }
   }, [user]);
-
-
 
   if (!field) return null;
 
@@ -99,7 +99,11 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
               <div>
                 <h3 className="font-medium mb-3">Select Date</h3>
-                <Calendar/>
+                <DayPicker
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={setSelectedDate}
+                />
               </div>
               <div>
                 <h3 className="font-medium mb-3">Available Time Slots</h3>

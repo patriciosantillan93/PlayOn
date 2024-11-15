@@ -11,7 +11,7 @@ export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
   const { user, logout } = useAuth();
-
+  console.log(user);  // Debugging the value of `user
   const openAuthModal = (tab: 'login' | 'register') => {
     setAuthModalTab(tab);
     setIsAuthModalOpen(true);
@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CalendarDays className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">SportSpot</h1>
+            <h1 className="text-2xl font-bold">PlayOn</h1>
           </div>
           <nav className="flex items-center space-x-6">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
