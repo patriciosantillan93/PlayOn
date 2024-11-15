@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '../../hooks/use-toast';
+import { useAuth } from '../../hooks/use-auth';
 
 const registerSchema = z.object({
   username: z.string().min(2, 'Name must be at least 2 characters'),
@@ -23,6 +24,7 @@ interface RegisterFormProps {
 export function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { register } = useAuth();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -36,14 +38,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      // TODO: Implement actual registration logic
-      const response = await fetch("http://localhost:5000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      console.log('Register:', data);
+      await register(data.username, data.email, data.password);
       toast({
         title: 'Success',
         description: 'Your account has been created.',
@@ -57,7 +52,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       });
     } finally {
       setIsLoading(false);
-      console.log(Response);
     }
   };
 

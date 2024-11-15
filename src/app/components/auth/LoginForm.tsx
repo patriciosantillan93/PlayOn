@@ -6,6 +6,7 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../components/ui/form';
 import { useToast } from '../../hooks/use-toast';
+import { useAuth } from '../../hooks/use-auth';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -21,6 +22,7 @@ interface LoginFormProps {
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { login } = useAuth();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -36,50 +38,22 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     const loginData = { email: data.email, password: data.password };
   
     try {
-      const response = await fetch('http://localhost:5000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
+      await login(data.email, data.password);
+      toast({
+        title: 'Success',
+        description: 'You have successfully logged in.',
       });
-  
-      // Log the full response object to inspect its contents
-      console.log('Response:', response);
-  
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Login successful:', result); // Log the successful result
-  
-        toast({
-          title: 'Success',
-          description: 'You have successfully logged in.',
-        });
-  
-        localStorage.setItem('authToken', result.token);
-        onSuccess();
-      } else {
-        const errorData = await response.json();
-        console.log('Error response:', errorData); // Log the error data
-  
-        toast({
-          title: 'Error',
-          description: errorData.error || 'Failed to log in',
-          variant: 'destructive',
-        });
-      }
+      onSuccess();
     } catch (error) {
-      console.error('Network error or server not available:', error); // Log network errors
       toast({
         title: 'Error',
-        description: 'Network error or server is not available.',
+        description: 'Invalid email or password.',
         variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
     }
   };
-  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
