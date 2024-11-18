@@ -1,14 +1,13 @@
 // server/index.js
 const express = require('express');
 const cors = require('cors');
-
-
 require('dotenv').config();
 
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const canchaRoutes = require('./routes/canchaRoutes');
 const reservaRoutes = require('./routes/reservaRoutes');
+const emailRoutes = require('./routes/emailRoutes');
 
 const Cancha = require('./models/Cancha'); 
 const Reserva = require('./models/Reserva'); 
@@ -16,12 +15,19 @@ const User = require('./models/User');
 
 const app = express();
 
+// Log incoming requests (This should be placed before the routes)
+app.use((req, res, next) => {
+    console.log(`${req.method} request made to: ${req.url}`);
+    next(); // Continue processing the request
+});
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use('/auth', authRoutes); 
 app.use('/canchas', canchaRoutes);
 app.use('/reservas', reservaRoutes);
+app.use('/email', emailRoutes); // Usar la ruta de email
 
 // Sincronizar modelos con la base de datos
 sequelize.sync()

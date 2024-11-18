@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { format, addDays } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar } from '../components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { ScrollArea } from '../components/ui/scroll-area';
@@ -12,6 +12,8 @@ import { cn } from '../lib/utils';
 import { useToast } from '../hooks/use-toast';
 import { useAuth } from '../hooks/use-auth';
 import { DayPicker } from 'react-day-picker';
+import { useSendEmail } from '../hooks/use-email';
+
 import "react-day-picker/style.css";
 
 interface BookingModalProps {
@@ -20,13 +22,8 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
-interface BookingModalProps {
-  field: Field | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
 type Step = 'selection' | 'confirmation';
+
 
 export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
   const [step, setStep] = useState<Step>('selection');
@@ -40,6 +37,10 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
   });
   const { toast } = useToast();
   const { user } = useAuth();
+
+  // Initialize the email sending hook outside of the function
+  const { sendEmail, isLoading: sendingEmail, error } = useSendEmail();
+
 
   // Populate contact info with user details when available
   useEffect(() => {
@@ -55,40 +56,46 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
   if (!field) return null;
 
   const fieldTimeSlots = timeSlots[field.id] || [];
-  const dateStr = format(selectedDate, 'yyyy-MM-dd');
+  // const { sendEmail } = useSendEmail();
 
-  const handleConfirmBooking = () => {
-    if (!selectedTimeSlot) return;
-    
-    // TODO: Implement actual booking logic
-    console.log('Booking:', {
-      fieldId: field.id,
-      date: dateStr,
-      timeSlot: selectedTimeSlot,
-      contactInfo,
-    });
+  const handleConfirmBooking = async () => {
+    if (!selectedTimeSlot) {
+      toast({
+        title: 'Booking Error',
+        description: 'Please select a time slot.',
+        variant: 'destructive',
+      });
+      return;
+    }
 
-    toast({
-      title: "Booking Confirmed!",
-      description: "You'll receive a confirmation email shortly.",
-    });
-    
-    onClose();
-    setStep('selection');
-    setSelectedTimeSlot(null);
-    setContactInfo({
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: '',
-      notes: '',
-    });
+    try {
+      await sendEmail({
+        email: contactInfo.email,
+        field: field?.name,
+        selectedDate,
+        selectedTimeSlot: `${selectedTimeSlot.startTime} - ${selectedTimeSlot.endTime}`,
+      });
+
+      toast({
+        title: 'Booking Confirmed!',
+        description: 'Check your email for booking details.',
+      });
+      onClose(); // Close the modal
+    } catch (error) {
+      toast({
+        title: 'Booking Error',
+        description: error.message || 'There was an issue confirming your booking.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleBack = () => {
     setStep('selection');
   };
+
   return (
-  <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Book {field.name}</DialogTitle>
@@ -120,7 +127,7 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                         )}
                         disabled={!slot.isAvailable}
                         onClick={() => setSelectedTimeSlot(slot)}
-                        >
+                      >
                         {slot.startTime} - {slot.endTime}
                       </Button>
                     ))}
