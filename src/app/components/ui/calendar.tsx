@@ -5,7 +5,7 @@ import { useState } from 'react';
 import "react-day-picker/style.css";
 
 
-function Calendar() {
+function Calendar(selected) {
   const [selected, setSelected] = useState<Date>();
 
   return (

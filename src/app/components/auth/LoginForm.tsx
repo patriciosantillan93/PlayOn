@@ -39,15 +39,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   
     try {
       await login(data.email, data.password);
+      onSuccess();
       toast({
         title: 'Success',
         description: 'You have successfully logged in.',
       });
-      onSuccess();
-    } catch (error) {
+    } catch (error:any) {
       toast({
         title: 'Error',
-        description: 'Invalid email or password.',
+        description: error.message,
         variant: 'destructive',
       });
     } finally {

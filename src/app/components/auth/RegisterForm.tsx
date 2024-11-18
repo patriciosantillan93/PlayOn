@@ -37,23 +37,26 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
 
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
+  
     try {
       await register(data.username, data.email, data.password);
+      onSuccess();
       toast({
         title: 'Success',
         description: 'Your account has been created.',
       });
-      onSuccess();
-    } catch (error) {
+    } catch (error: any) {
+      // Show specific error message from the register function
       toast({
         title: 'Error',
-        description: 'Something went wrong. Please try again.',
+        description: error.message,
         variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

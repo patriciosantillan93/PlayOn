@@ -45,7 +45,15 @@ exports.login = async (req, res) => {
 
         // Crear token JWT
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Inicio de sesión exitoso', token });
+        res.json({
+            message: 'Inicio de sesión exitoso',
+            token,
+            user: {
+              id: user.id,
+              name: user.username, // Or whatever field you want
+              email: user.email,
+            },
+        })
     } catch (error) {
         res.status(500).json({ error: 'Error al iniciar sesión' });
     }
