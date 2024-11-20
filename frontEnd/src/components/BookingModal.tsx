@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { Calendar } from '../components/ui/calendar';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
-import { ScrollArea } from '../components/ui/scroll-area';
-import { Button } from '../components/ui/button';
-import { timeSlots } from '../data/timeSlots';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Field, TimeSlot } from '../types';
-import { cn } from '../lib/utils';
-import { useToast } from '../hooks/use-toast';
-import { useAuth } from '../hooks/use-auth';
-import { DayPicker } from 'react-day-picker';
-import { useSendEmail } from '../hooks/use-email';
+import { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { Calendar } from "../components/ui/calendar";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { Button } from "../components/ui/button";
+import { timeSlots } from "@/data/timeSlots";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Field, TimeSlot } from "@/types";
+import { cn } from "../lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { DayPicker } from "react-day-picker";
+import { useSendEmail } from "@/hooks/use-email";
 
 import "react-day-picker/style.css";
 
@@ -22,18 +27,19 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
-type Step = 'selection' | 'confirmation';
-
+type Step = "selection" | "confirmation";
 
 export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
-  const [step, setStep] = useState<Step>('selection');
+  const [step, setStep] = useState<Step>("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
+    null
+  );
   const [contactInfo, setContactInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    notes: '',
+    name: "",
+    email: "",
+    phone: "",
+    notes: "",
   });
   const { toast } = useToast();
   const { user } = useAuth();
@@ -41,11 +47,10 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
   // Initialize the email sending hook outside of the function
   const { sendEmail, isLoading: sendingEmail, error } = useSendEmail();
 
-
   // Populate contact info with user details when available
   useEffect(() => {
     if (user) {
-      setContactInfo(prev => ({
+      setContactInfo((prev) => ({
         ...prev,
         name: user.name,
         email: user.email,
@@ -61,9 +66,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
   const handleConfirmBooking = async () => {
     if (!selectedTimeSlot) {
       toast({
-        title: 'Booking Error',
-        description: 'Please select a time slot.',
-        variant: 'destructive',
+        title: "Booking Error",
+        description: "Please select a time slot.",
+        variant: "destructive",
       });
       return;
     }
@@ -77,21 +82,22 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
       });
 
       toast({
-        title: 'Booking Confirmed!',
-        description: 'Check your email for booking details.',
+        title: "Booking Confirmed!",
+        description: "Check your email for booking details.",
       });
       onClose(); // Close the modal
     } catch (error) {
       toast({
-        title: 'Booking Error',
-        description: error.message || 'There was an issue confirming your booking.',
-        variant: 'destructive',
+        title: "Booking Error",
+        description:
+          error.message || "There was an issue confirming your booking.",
+        variant: "destructive",
       });
     }
   };
 
   const handleBack = () => {
-    setStep('selection');
+    setStep("selection");
   };
 
   return (
@@ -101,7 +107,7 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
           <DialogTitle>Book {field.name}</DialogTitle>
         </DialogHeader>
 
-        {step === 'selection' ? (
+        {step === "selection" ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
               <div>
@@ -119,10 +125,15 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                     {fieldTimeSlots.map((slot) => (
                       <Button
                         key={slot.id}
-                        variant={selectedTimeSlot?.id === slot.id ? "default" : "outline"}
+                        variant={
+                          selectedTimeSlot?.id === slot.id
+                            ? "default"
+                            : "outline"
+                        }
                         className={cn(
                           "w-full transition-transform duration-150",
-                          selectedTimeSlot?.id === slot.id && "border-2 border-blue-500 bg-blue-100 transform scale-102",
+                          selectedTimeSlot?.id === slot.id &&
+                            "border-2 border-blue-500 bg-blue-100 transform scale-102",
                           !slot.isAvailable && "opacity-50 cursor-not-allowed"
                         )}
                         disabled={!slot.isAvailable}
@@ -137,11 +148,7 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
             </div>
             <div className="flex justify-between items-center mt-6">
               <div className="text-sm text-muted-foreground">
-                {selectedTimeSlot && (
-                  <span>
-                    Total: ${field.hourlyRate}
-                  </span>
-                )}
+                {selectedTimeSlot && <span>Total: ${field.hourlyRate}</span>}
               </div>
               <div className="space-x-2">
                 <Button variant="outline" onClick={onClose}>
@@ -149,7 +156,7 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                 </Button>
                 <Button
                   disabled={!selectedTimeSlot}
-                  onClick={() => setStep('confirmation')}
+                  onClick={() => setStep("confirmation")}
                 >
                   Continue
                 </Button>
@@ -165,7 +172,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date:</span>
-                <span className="font-medium">{format(selectedDate, 'MMMM d, yyyy')}</span>
+                <span className="font-medium">
+                  {format(selectedDate, "MMMM d, yyyy")}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Time:</span>
@@ -186,7 +195,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                   <Input
                     id="name"
                     value={contactInfo.name}
-                    onChange={(e) => setContactInfo({ ...contactInfo, name: e.target.value })}
+                    onChange={(e) =>
+                      setContactInfo({ ...contactInfo, name: e.target.value })
+                    }
                     placeholder="John Doe"
                     required
                   />
@@ -197,7 +208,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                     id="email"
                     type="email"
                     value={contactInfo.email}
-                    onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                    onChange={(e) =>
+                      setContactInfo({ ...contactInfo, email: e.target.value })
+                    }
                     placeholder="john@example.com"
                     required
                   />
@@ -209,7 +222,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                   id="phone"
                   type="tel"
                   value={contactInfo.phone}
-                  onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, phone: e.target.value })
+                  }
                   placeholder="+1 (555) 000-0000"
                   required
                 />
@@ -219,7 +234,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
                 <Input
                   id="notes"
                   value={contactInfo.notes}
-                  onChange={(e) => setContactInfo({ ...contactInfo, notes: e.target.value })}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, notes: e.target.value })
+                  }
                   placeholder="Any special requirements..."
                 />
               </div>
@@ -231,7 +248,9 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
               </Button>
               <Button
                 onClick={handleConfirmBooking}
-                disabled={!contactInfo.name || !contactInfo.email || !contactInfo.phone}
+                disabled={
+                  !contactInfo.name || !contactInfo.email || !contactInfo.phone
+                }
               >
                 Confirm Booking
               </Button>

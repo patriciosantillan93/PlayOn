@@ -1,16 +1,16 @@
 // app/layout.tsx
 
-import React from 'react';
-import Header from './components/Headerx';
-import Footer from './components/footer';
-// import './styles/globals.css';
-import { SharedStateProvider } from '../context/useSharedState';
+import React from "react";
+import Header from "@/components/Headerx";
+import Footer from "@/components/footer";
+import "@/app/globals.css";
+import { SharedStateProvider } from "../context/useSharedState";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 
 export const metadata = {
-  title: 'PlayOn',
-  description: 'Alquila tu cancha en un cl',
+  title: "PlayOn",
+  description: "Alquila tu cancha en un cl",
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -27,7 +27,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           </SharedStateProvider>
         </Theme>
       </body>
-      
     </html>
   );
 };

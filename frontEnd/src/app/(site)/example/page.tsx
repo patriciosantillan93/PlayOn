@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import Scheduler from '../../components/scheduler';
+import Scheduler from '@/components/scheduler';
 
 // Define the type for scheduler data
 interface SchedulerData {

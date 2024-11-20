@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import Profile from '../../components/profile'
+import Profile from '@/components/profile'
 
 
 // The main page component for your profile page

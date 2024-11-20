@@ -1,20 +1,30 @@
-import { useState } from 'react';
-import { Dialog, DialogContent } from '../../components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
-import { LoginForm } from './LoginForm';
-import { RegisterForm } from './RegisterForm';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogTitle } from "../../components/ui/dialog";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
+import { LoginForm } from "./LoginForm";
+import { RegisterForm } from "./RegisterForm";
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultTab?: 'login' | 'register';
+  defaultTab?: "login" | "register";
 }
 
-export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalProps) {
+export function AuthModal({
+  isOpen,
+  onClose,
+  defaultTab = "login",
+}: AuthModalProps) {
   const [activeTab, setActiveTab] = useState<string>(defaultTab);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
+        <DialogTitle className="text-center">Welcome to PlayOn</DialogTitle>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>

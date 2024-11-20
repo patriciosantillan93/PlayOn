@@ -1,4 +1,4 @@
-import { TimeSlot } from '../types';
+import { TimeSlot } from "@/types";
 
 const generateTimeSlots = (fieldId: string): TimeSlot[] => {
   const slots: TimeSlot[] = [];

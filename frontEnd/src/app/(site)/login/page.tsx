@@ -1,15 +1,15 @@
-// app/login/page.tsx
+// DEPRECATED
+"use client";
+import React from "react";
+import { LoginForm } from "@/components/Login";
 
-
-import React from 'react';
-import Login from '../../components/Login';
-
-const LoginPage: React.FC = () => {
+export default function LoginPage() {
   return (
     <div>
-      <Login />
+      <LoginForm
+        onSuccess={() => alert("login success")}
+        closeDialog={() => alert("close dialog")}
+      />
     </div>
   );
-};
-
-export default LoginPage;
+}

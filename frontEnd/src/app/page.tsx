@@ -1,27 +1,28 @@
 // app/page.tsx
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import './styles/globals.css';
-import { Toaster } from './components/ui/toaster';
-// import { Header } from './components/Headerx';
-import { FieldCard } from './components/CanchaCard';
-import { BookingModal } from './components/BookingModal';
-import { fields } from './data/fields';
-import { Field } from './types';
-import * as Dialog from '@radix-ui/react-dialog';
+import React, { useState } from "react";
+import "@/styles/globals.css";
+import { Toaster } from "@/components/ui/toaster";
+// import { Header } from '@/components/Headerx';
+import { FieldCard } from "@/components/CanchaCard";
+import { BookingModal } from "@/components/BookingModal";
+import { fields } from "@/data/fields";
+import { Field } from "@/types";
+import * as Dialog from "@radix-ui/react-dialog";
 
 function App() {
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedField, setSelectedField] = useState<Field | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  const filteredFields = selectedType === 'all' 
-    ? fields 
-    : fields.filter(field => field.type === selectedType);
+  const filteredFields =
+    selectedType === "all"
+      ? fields
+      : fields.filter((field) => field.type === selectedType);
 
   const handleBookNow = (fieldId: string) => {
-    const field = fields.find(f => f.id === fieldId);
+    const field = fields.find((f) => f.id === fieldId);
     if (field) {
       setSelectedField(field);
       setIsBookingModalOpen(true);
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Toaster /> 
+      <Toaster />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Available Fields</h2>
@@ -50,11 +51,7 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredFields.map((field) => (
-            <FieldCard
-              key={field.id}
-              field={field}
-              onBookNow={handleBookNow}
-            />
+            <FieldCard key={field.id} field={field} onBookNow={handleBookNow} />
           ))}
         </div>
 

@@ -1,7 +1,14 @@
-import { Field } from '../types';
-import { Users, Ruler, CircleDollarSign } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
+import { Field } from "../../types";
+import { Users, Ruler, CircleDollarSign } from "lucide-react";
+import { Button } from "../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 interface FieldCardProps {
   field: Field;
   onBookNow: (fieldId: string) => void;
