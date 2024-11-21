@@ -18,8 +18,8 @@ import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
 import { useSendEmail } from "@/hooks/useSendEmail";
 import "react-day-picker/style.css";
-import Loader from "./ui/loader";
 import { useSession } from "next-auth/react";
+import { Spinner } from "@radix-ui/themes";
 
 interface BookingModalProps {
   field: CanchaFromDB | null;
@@ -272,7 +272,7 @@ export default function BookingModal({
                   !contactInfo.name || !contactInfo.email || !contactInfo.phone
                 }
               >
-                {isLoading ? <Loader size="40" /> : "Confirm Booking"}
+                {isLoading ? <Spinner /> : "Confirm Booking"}
               </Button>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { Field } from "@/types";
 import { Users, Ruler, CircleDollarSign } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
@@ -9,8 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { CanchaFromDB } from "@/interfaces/cancha";
 interface FieldCardProps {
-  field: Field;
+  field: CanchaFromDB;
   onBookNow: (fieldId: string) => void;
 }
 
@@ -19,7 +19,7 @@ export default function FieldCard({ field, onBookNow }: FieldCardProps) {
     <Card className="overflow-hidden">
       <div className="aspect-video relative overflow-hidden">
         <img
-          src={field.imageUrl}
+          src={field.imageUrl ?? ""}
           alt={field.name}
           className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
         />

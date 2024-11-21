@@ -1,6 +1,6 @@
 export interface Cancha {
   name: string;
-  type?: "soccer" | "basketball" | "tennis" | "volleyball" | null;
+  type: "soccer" | "basketball" | "tennis" | "volleyball";
   hourlyRate?: number | null;
   imageUrl?: string | null;
   description?: string | null;
@@ -13,5 +13,3 @@ export interface Cancha {
 export interface CanchaFromDB extends Cancha {
   id: string;
 }
-
-

@@ -1,6 +1,6 @@
-import { Field } from "@/types";
+import { CanchaFromDB } from "@/interfaces/cancha";
 
-export const fields: Field[] = [
+export const fields: CanchaFromDB[] = [
   {
     id: "1",
     name: "Champions Arena",
@@ -12,6 +12,7 @@ export const fields: Field[] = [
       "Professional-grade soccer field with FIFA-approved artificial turf",
     dimensions: "100m x 64m",
     maxPlayers: 22,
+    createdAt: new Date(Date.now()),
   },
   {
     id: "2",
@@ -23,6 +24,7 @@ export const fields: Field[] = [
     description: "Indoor basketball court with professional flooring",
     dimensions: "28m x 15m",
     maxPlayers: 10,
+    createdAt: new Date(Date.now()),
   },
   {
     id: "3",
@@ -34,5 +36,6 @@ export const fields: Field[] = [
     description: "Premium tennis court with night lighting",
     dimensions: "23.77m x 10.97m",
     maxPlayers: 4,
+    createdAt: new Date(Date.now()),
   },
 ];

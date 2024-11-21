@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./auth/AuthModal";
 import { useState } from "react";
+import { useTheme } from "next-themes";
 
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function Header() {
   const [authModalTab, setAuthModalTab] = useState<"login" | "register">(
     "login"
   );
+  const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
   console.log(session, " SESSION");
 
@@ -44,7 +46,17 @@ export default function Header() {
               Contact
             </Link>
           </nav>
-          <div className=" items-center gap-2">
+          <div className="flex flex-row items-center gap-2">
+            <div>
+              {theme === "light" && (
+                <button onClick={() => setTheme("dark")}>Dark</button>
+              )}
+              {theme === "dark" && (
+                <button onClick={() => setTheme("light")} className="mr-2">
+                  Light
+                </button>
+              )}
+            </div>
             {session ? (
               <div className="hidden sm:flex items-center gap-4">
                 <span className="text-muted-foreground">
@@ -79,6 +91,7 @@ export default function Header() {
               </div>
             )}
           </div>
+
           <div
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             id="hamburguer-container"
