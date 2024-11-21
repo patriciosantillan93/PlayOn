@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useToast } from "../hooks/use-toast";
+import { useToast } from "../hooks/useToast";
 import { useRouter } from "next/navigation"; // If using Next.js
 
 const loginSchema = z.object({

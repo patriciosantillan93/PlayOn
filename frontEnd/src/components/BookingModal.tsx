@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { Calendar } from "../components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -14,14 +13,12 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Field, TimeSlot } from "@/types";
 import { cn } from "../lib/utils";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
-import { useSendEmail } from "@/hooks/use-email";
-
+import { useSendEmail } from "@/hooks/useSendEmail";
 import "react-day-picker/style.css";
-import { set } from "react-hook-form";
 import Loader from "./ui/loader";
+import { useSession } from "next-auth/react";
 
 interface BookingModalProps {
   field: Field | null;
@@ -49,21 +46,21 @@ export default function BookingModal({
   });
   const [message, setMessage] = useState("");
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { data: session } = useSession();
 
   // Initialize the email sending hook outside of the function
   const { sendEmail, isLoading, error } = useSendEmail();
 
   // Populate contact info with user details when available
   useEffect(() => {
-    if (user) {
+    if (session?.user) {
       setContactInfo((prev) => ({
         ...prev,
-        name: user.name,
-        email: user.email,
+        name: session.user?.name ?? "",
+        email: session.user?.email ?? "",
       }));
     }
-  }, [user]);
+  }, [session]);
 
   if (!field) return null;
 
