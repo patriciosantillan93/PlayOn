@@ -20,6 +20,8 @@ import { DayPicker } from "react-day-picker";
 import { useSendEmail } from "@/hooks/use-email";
 
 import "react-day-picker/style.css";
+import { set } from "react-hook-form";
+import Loader from "./ui/loader";
 
 interface BookingModalProps {
   field: Field | null;
@@ -45,11 +47,12 @@ export default function BookingModal({
     phone: "",
     notes: "",
   });
+  const [message, setMessage] = useState("");
   const { toast } = useToast();
   const { user } = useAuth();
 
   // Initialize the email sending hook outside of the function
-  const { sendEmail, isLoading: sendingEmail, error } = useSendEmail();
+  const { sendEmail, isLoading, error } = useSendEmail();
 
   // Populate contact info with user details when available
   useEffect(() => {
@@ -92,6 +95,7 @@ export default function BookingModal({
       onClose(); // Close the modal
     } catch (error) {
       if (error instanceof Error) {
+        setMessage("Booking Error: " + error.message);
         toast({
           title: "Booking Error",
           description:
@@ -103,6 +107,7 @@ export default function BookingModal({
   };
 
   const handleBack = () => {
+    setMessage("");
     setStep("selection");
   };
 
@@ -158,7 +163,13 @@ export default function BookingModal({
                 {selectedTimeSlot && <span>Total: ${field.hourlyRate}</span>}
               </div>
               <div className="space-x-2">
-                <Button variant="outline" onClick={onClose}>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    onClose();
+                    handleBack();
+                  }}
+                >
                   Cancel
                 </Button>
                 <Button
@@ -249,6 +260,10 @@ export default function BookingModal({
               </div>
             </div>
 
+            <div className="message">
+              <p>{message}</p>
+            </div>
+
             <div className="flex justify-end space-x-2">
               <Button variant="outline" onClick={handleBack}>
                 Back
@@ -259,7 +274,7 @@ export default function BookingModal({
                   !contactInfo.name || !contactInfo.email || !contactInfo.phone
                 }
               >
-                Confirm Booking
+                {isLoading ? <Loader size="40" /> : "Confirm Booking"}
               </Button>
             </div>
           </div>
