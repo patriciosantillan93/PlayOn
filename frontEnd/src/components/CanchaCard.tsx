@@ -1,4 +1,4 @@
-import { Field } from "../../types";
+import { Field } from "@/types";
 import { Users, Ruler, CircleDollarSign } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
@@ -14,7 +14,7 @@ interface FieldCardProps {
   onBookNow: (fieldId: string) => void;
 }
 
-export function FieldCard({ field, onBookNow }: FieldCardProps) {
+export default function FieldCard({ field, onBookNow }: FieldCardProps) {
   return (
     <Card className="overflow-hidden">
       <div className="aspect-video relative overflow-hidden">

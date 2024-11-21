@@ -29,7 +29,11 @@ interface BookingModalProps {
 
 type Step = "selection" | "confirmation";
 
-export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
+export default function BookingModal({
+  field,
+  isOpen,
+  onClose,
+}: BookingModalProps) {
   const [step, setStep] = useState<Step>("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
@@ -87,12 +91,14 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
       });
       onClose(); // Close the modal
     } catch (error) {
-      toast({
-        title: "Booking Error",
-        description:
-          error.message || "There was an issue confirming your booking.",
-        variant: "destructive",
-      });
+      if (error instanceof Error) {
+        toast({
+          title: "Booking Error",
+          description:
+            error.message || "There was an issue confirming your booking.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -113,6 +119,7 @@ export function BookingModal({ field, isOpen, onClose }: BookingModalProps) {
               <div>
                 <h3 className="font-medium mb-3">Select Date</h3>
                 <DayPicker
+                  required
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}

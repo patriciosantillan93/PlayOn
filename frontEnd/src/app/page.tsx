@@ -4,12 +4,10 @@
 import React, { useState } from "react";
 import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
-// import { Header } from '@/components/Headerx';
-import { FieldCard } from "@/components/CanchaCard";
-import { BookingModal } from "@/components/BookingModal";
+import FieldCard from "@/components/CanchaCard";
+import BookingModal from "@/components/BookingModal";
 import { fields } from "@/data/fields";
 import { Field } from "@/types";
-import * as Dialog from "@radix-ui/react-dialog";
 
 function App() {
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -63,42 +61,6 @@ function App() {
             setSelectedField(null);
           }}
         />
-
-        {/* <Dialog.Root open={isBookingModalOpen} onOpenChange={setIsBookingModalOpen}>
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-          <Dialog.Content className="fixed bg-white rounded shadow-lg p-6 max-w-md mx-auto top-1/4 left-1/2 transform -translate-x-1/2">
-            {selectedField && (
-              <>
-                <Dialog.Title className="text-xl font-semibold mb-4">
-                  Book {selectedField.name}
-                </Dialog.Title>
-                <p className="text-muted-foreground mb-4">
-                  {selectedField.description}
-                </p>
-                <p className="text-sm">Type: {selectedField.type}</p>
-                <p className="text-sm">Max Players: {selectedField.maxPlayers}</p>
-                <p className="text-sm">Dimensions: {selectedField.dimensions}</p>
-                <p className="text-sm">Rate: ${selectedField.hourlyRate}/hour</p>
-                <div className="mt-6">
-                  <button
-                    className="bg-primary text-white rounded py-2 px-4 hover:bg-primary-dark transition-colors"
-                    onClick={() => setIsBookingModalOpen(false)}
-                  >
-                    Confirm Booking
-                  </button>
-                </div>
-              </>
-            )}
-            <Dialog.Close asChild>
-              <button
-                className="absolute top-2 right-2 text-muted-foreground hover:text-primary"
-                aria-label="Close"
-              >
-                &times;
-              </button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Root> */}
       </main>
     </div>
   );

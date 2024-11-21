@@ -1,5 +1,3 @@
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -64,20 +62,23 @@ body {
   flex-direction: column;
 }
 
-.date-selector, .time-slot-grid {
+.date-selector,
+.time-slot-grid {
   display: flex;
   gap: 8px;
   margin-bottom: 8px;
 }
 
-.date-button, .time-slot-button {
+.date-button,
+.time-slot-button {
   background: #f1f5f9;
   padding: 8px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.date-button.selected, .time-slot-button.selected {
+.date-button.selected,
+.time-slot-button.selected {
   background: #4f46e5;
   color: #ffffff;
 }

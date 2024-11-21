@@ -3,7 +3,7 @@
 import React from "react";
 import Header from "@/components/Headerx";
 import Footer from "@/components/footer";
-import "@/app/globals.css";
+import "@/styles/globals.css";
 import { SharedStateProvider } from "../context/useSharedState";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
