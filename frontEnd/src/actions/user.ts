@@ -8,10 +8,11 @@ export async function login(loginData: LoginDto) {
   const password = loginData.password;
 
   await signIn("credentials", {
-    redirectTo: "/",
+    redirect: false,
     email,
     password,
   });
+  return { success: true };
 }
 
 export async function register(registerData: RegisterDto) {

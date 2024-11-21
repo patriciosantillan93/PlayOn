@@ -11,7 +11,8 @@ import { Button } from "../components/ui/button";
 import { timeSlots } from "@/data/timeSlots";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Field, TimeSlot } from "@/types";
+import { TimeSlot } from "@/interfaces/reserva";
+import { CanchaFromDB } from "@/interfaces/cancha";
 import { cn } from "../lib/utils";
 import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
@@ -21,7 +22,7 @@ import Loader from "./ui/loader";
 import { useSession } from "next-auth/react";
 
 interface BookingModalProps {
-  field: Field | null;
+  field: CanchaFromDB | null;
   isOpen: boolean;
   onClose: () => void;
 }

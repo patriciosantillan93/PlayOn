@@ -1,14 +1,27 @@
-import { auth } from "@/auth";
-import Link from "next/link";
-import { logOut } from "@/actions/auth";
-import { UserFromDB } from "@/interfaces/user";
-import { CalendarDays } from "lucide-react";
-import AccessDashboard from "./AccessDashboard";
-import { Button } from "./ui/button";
+"use client";
 
-export default async function Header() {
-  const session = await auth();
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { CalendarDays } from "lucide-react";
+import { Button } from "./ui/button";
+import { useSession } from "next-auth/react";
+import { AuthModal } from "./auth/AuthModal";
+import { useState } from "react";
+
+export default function Header() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<"login" | "register">(
+    "login"
+  );
+  const { data: session } = useSession();
   console.log(session, " SESSION");
+
+  const openAuthModal = (tab: "login" | "register") => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
+  };
+
   return (
     <header className="border-b">
       <div className="container mx-auto px-4 py-6">
@@ -31,32 +44,86 @@ export default async function Header() {
               Contact
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className=" items-center gap-2">
             {session ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">
-                  Welcome, {session.user?.name}
+              <div className="hidden sm:flex items-center gap-4">
+                <span className="text-muted-foreground">
+                  Welcome, {session?.user?.name}
                 </span>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link href="#" className=" text-muted-foreground ">
                   My Bookings
                 </Link>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={logOut}
-                  className="flex items-center gap-2"
+                  onClick={() => signOut()}
+                  className="flex text-sm text-muted-foreground"
                 >
                   Logout
                 </Button>
               </div>
             ) : (
-              <AccessDashboard />
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" onClick={() => openAuthModal("login")}>
+                  Login
+                </Button>
+                <Button onClick={() => openAuthModal("register")}>
+                  Sign up
+                </Button>
+
+                <AuthModal
+                  isOpen={isAuthModalOpen}
+                  onClose={() => setIsAuthModalOpen(false)}
+                  defaultTab={authModalTab}
+                />
+              </div>
             )}
           </div>
+          <div
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            id="hamburguer-container"
+            className="sm:hidden flex flex-col justify-center place-items-center p-2 gap-2"
+          >
+            <div className="w-6 border border-gray-500"></div>
+            <div className="w-6 border border-gray-500"></div>
+          </div>
         </div>
+      </div>
+      <div
+        className={`absolute top-0 left-0 bg-white w-full h-screen py-5 z-50 ${
+          isMobileMenuOpen ? "block" : "hidden"
+        }`}
+      >
+        <nav className="relative flex flex-col justify-start place-tems-center  text-lg font-bold">
+          <Link className="px-5 py-3 hover:bg-gray-400" href="#">
+            Fields
+          </Link>
+          <Link className="px-5 py-3 hover:bg-gray-400" href="#">
+            Contact
+          </Link>
+          {session?.user && (
+            <>
+              <Link href="#" className="px-5 py-3 hover:bg-gray-400">
+                My Bookings
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="px-5 py-3 text-left hover:bg-gray-400"
+              >
+                Logout
+              </button>
+            </>
+          )}
+          <div
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            id="close-hamburguer-container"
+            className="absolute top-2 right-5 p-2 "
+          >
+            <div className="w-7 border-t-2 place-self-center border-gray-500 rotate-45"></div>
+
+            <div className="w-7 border-t-2 place-self-center border-gray-500 -rotate-45"></div>
+          </div>
+        </nav>
       </div>
     </header>
   );

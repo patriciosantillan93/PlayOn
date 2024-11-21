@@ -31,7 +31,12 @@ export function AuthModal({
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
           <TabsContent value="login">
-            <LoginForm onSuccess={onClose} />
+            <LoginForm
+              onSuccess={() => {
+                onClose();
+                window.location.reload();
+              }}
+            />
           </TabsContent>
           <TabsContent value="register">
             <RegisterForm onSuccess={onClose} />

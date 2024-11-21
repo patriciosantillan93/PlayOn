@@ -7,11 +7,11 @@ import { Toaster } from "@/components/ui/toaster";
 import FieldCard from "@/components/CanchaCard";
 import BookingModal from "@/components/BookingModal";
 import { fields } from "@/data/fields";
-import { Field } from "@/types";
+import { Cancha, CanchaFromDB } from "@/interfaces/cancha";
 
 function App() {
   const [selectedType, setSelectedType] = useState<string>("all");
-  const [selectedField, setSelectedField] = useState<Field | null>(null);
+  const [selectedField, setSelectedField] = useState<CanchaFromDB | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const filteredFields =
