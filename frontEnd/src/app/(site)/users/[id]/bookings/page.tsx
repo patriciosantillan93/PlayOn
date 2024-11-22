@@ -1,9 +1,11 @@
 "use client";
 
-import { fields } from "@/data/fields";
+import { DeleteBooking } from "@/actions/bookings";
+import BookingCard from "@/components/ReservaCard";
+
 import { ReservaFromDB } from "@/interfaces/reserva";
 import { useParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MyBookings() {
   const params = useParams<{ id: string }>();
@@ -20,6 +22,21 @@ export default function MyBookings() {
       });
   }, []);
 
+  async function handleDeleteBooking(id: number) {
+    setIsLoading(true);
+    try {
+      const result = await DeleteBooking(id);
+      if (result) {
+        setBookings(bookings.filter((booking) => booking.id !== id));
+        alert(result.message);
+      }
+    } catch (error) {
+      alert("Error deleting booking");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  
   if (isLoading) return <p>Loading...</p>;
   if (bookings.length === 0) return <p>No data</p>;
   return (
@@ -30,10 +47,7 @@ export default function MyBookings() {
       <div className="w-full flex flex-col justify-start gap-5 p-5 ">
         {bookings.map((booking) => (
           <div key={booking.id}>
-            <p>{booking.fecha}</p>
-            <p>{booking.horaInicio}</p>
-            <p>{booking.horaFin}</p>
-            <p>{booking.canchaId}</p>
+            <BookingCard booking={booking} onDelete={handleDeleteBooking} />
           </div>
         ))}
       </div>

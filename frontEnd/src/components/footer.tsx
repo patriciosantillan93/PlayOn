@@ -1,12 +1,15 @@
 // app/components/Footer.tsx
 
-import React from 'react';
-import styles from './Footer.module.css'; // Import the CSS module
+import React from "react";
+// import styles from "./Footer.module.css"; // Import the CSS module
 
 const Footer = () => {
+  const year = new Date().getFullYear();
   return (
-    <footer className={styles.footer}> {/* Apply the .footer class */}
-      <p className={styles.footerText}>&copy; Powered by PlayON. All rights reserved.</p> {/* Apply the .footerText class */}
+    <footer>
+      <p className="footerText">
+        &copy; Copyright {year} PlayOn. All rights reserved.
+      </p>
     </footer>
   );
 };

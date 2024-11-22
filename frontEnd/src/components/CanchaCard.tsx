@@ -50,7 +50,7 @@ export default function FieldCard({ field, onBookNow }: FieldCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={() => onBookNow(field.id)}>
+        <Button className="border w-full" onClick={() => onBookNow(field.id)}>
           Book Now
         </Button>
       </CardFooter>

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import "@/styles/globals.css";
 
 import FieldCard from "@/components/CanchaCard";
 import BookingModal from "@/components/BookingModal";
@@ -41,14 +40,14 @@ export default function App() {
 
   if (fields.length === 0) return <p>No fields available</p>;
   return (
-    <section className="container min-h-screen bg-background mx-auto px-4 py-8">
+    <section className="container bg-background mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold">Available Fields</h2>
+        <h1 className="text-3xl font-bold">Available Fields</h1>
         <div className="flex items-center gap-4">
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="w-[180px] border border-gray-300 rounded p-2 bg-white"
+            className="w-[180px] border border-gray-300 rounded p-2 "
           >
             <option value="all">All Sports</option>
             <option value="soccer">Soccer</option>

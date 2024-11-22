@@ -26,7 +26,7 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b">
+    <header className="border-b shadow-lg">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -48,16 +48,6 @@ export default function Header() {
             </Link>
           </nav>
           <div className="flex flex-row items-center gap-2">
-            {/* <div>
-              {theme === "light" && (
-                <button onClick={() => setTheme("dark")}>Dark</button>
-              )}
-              {theme === "dark" && (
-                <button onClick={() => setTheme("light")} className="mr-2">
-                  Light
-                </button>
-              )}
-            </div> */}
             <ThemeToggle />
             {session?.user ? (
               <div className="hidden sm:flex items-center gap-4">

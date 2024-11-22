@@ -23,3 +23,38 @@ export async function CreateBooking(
   }
   return insertedBooking;
 }
+
+export async function GetBookings(userId: number): Promise<ReservaFromDB[]> {
+  const response = await fetch(
+    `http://localhost:5000/reservas/usuario/${userId}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to get bookings");
+  }
+
+  const bookings: ReservaFromDB[] = await response.json();
+  if (!bookings) {
+    throw new Error("Failed to get bookings");
+  }
+  return bookings;
+}
+
+export async function DeleteBooking(bookingId: number): Promise<any> {
+  const response = await fetch(`http://localhost:5000/reservas/${bookingId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to delete booking");
+  }
+
+  return response.json();
+}
