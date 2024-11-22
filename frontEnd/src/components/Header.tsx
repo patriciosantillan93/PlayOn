@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./auth/AuthModal";
@@ -26,7 +26,7 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b shadow-lg">
+    <header className="shadow-lg">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -55,7 +55,7 @@ export default function Header() {
                   Welcome, {session.user.name}
                 </span>
                 <Link
-                  href={`/users/${session.user.id}/bookings`}
+                  href={`/users/bookings`}
                   className=" text-muted-foreground "
                 >
                   My Bookings
@@ -92,13 +92,17 @@ export default function Header() {
             id="hamburguer-container"
             className="sm:hidden flex flex-col justify-center place-items-center p-2 gap-2"
           >
-            <div className="w-6 border border-gray-500"></div>
-            <div className="w-6 border border-gray-500"></div>
+            <Menu
+              size={40}
+              className={`text-gray-500 ${
+                isMobileMenuOpen ? "rotate-90 scale-0 " : "rotate-0 scale-100 "
+              }`}
+            />
           </div>
         </div>
       </div>
       <div
-        className={`absolute top-0 left-0 bg-white w-full h-screen py-5 z-50 ${
+        className={`sm:hidden absolute top-0 left-0 bg-background w-full h-screen py-5 z-50 ${
           isMobileMenuOpen ? "block" : "hidden"
         }`}
       >
@@ -112,7 +116,7 @@ export default function Header() {
           {session?.user && (
             <>
               <Link
-                href={`/users/${session.user.id}/bookings`}
+                href={`/users/bookings`}
                 className="px-5 py-3 hover:bg-gray-400"
               >
                 My Bookings
@@ -128,11 +132,14 @@ export default function Header() {
           <div
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             id="close-hamburguer-container"
-            className="absolute top-2 right-5 p-2 "
+            className="absolute top-2 right-5 transition-all duration-300 ease-in-out"
           >
-            <div className="w-7 border-t-2 place-self-center border-gray-500 rotate-45"></div>
-
-            <div className="w-7 border-t-2 place-self-center border-gray-500 -rotate-45"></div>
+            <X
+              size={40}
+              className={`text-gray-500 ${
+                isMobileMenuOpen ? "rotate-0 scale-100 " : "rotate-90 scale-0 "
+              }`}
+            />
           </div>
         </nav>
       </div>

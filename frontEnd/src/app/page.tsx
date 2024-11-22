@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import FieldCard from "@/components/CanchaCard";
 import BookingModal from "@/components/BookingModal";
 import { CanchaFromDB } from "@/interfaces/cancha";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -41,6 +41,7 @@ export default function App() {
   if (fields.length === 0) return <p>No fields available</p>;
   return (
     <section className="container bg-background mx-auto px-4 py-8">
+      <Toaster />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Available Fields</h1>
         <div className="flex items-center gap-4">
@@ -57,7 +58,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredFields.map((field) => (
           <FieldCard key={field.id} field={field} onBookNow={handleBookNow} />
         ))}

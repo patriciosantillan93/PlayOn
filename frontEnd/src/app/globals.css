@@ -15,15 +15,15 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "SF Pro", "Segoe UI", Helvetica, sans-serif;
+}
+
+main {
+  @apply dark:bg-slate-600;
 }
 
 footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-
+  @apply flex flex-col items-center p-5 shadow-[rgba(0,0,0,0.8)_0px_-25px_-25px_0px];
   p {
     margin: 0; /* Remove default margin */
   }
@@ -32,7 +32,7 @@ footer {
 section.container {
   @apply rounded-lg shadow-lg;
 }
-/* src/styles/globals.css or src/app/components/Card.module.css */
+
 .card {
   border: 1px solid #ccc;
   border-radius: 8px;

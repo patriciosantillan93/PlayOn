@@ -1,15 +1,18 @@
 "use client";
 import Link from "next/link";
-
-import { Button } from "./button";
 import { logOut } from "@/actions/auth";
 import { Session } from "next-auth";
 
-export default function MobileMenu({ session, onClose }: { session: Session, onClose: () => void }) {
-  
+export default function MobileMenu({
+  session,
+  onClose,
+}: {
+  session: Session;
+  onClose: () => void;
+}) {
   console.log(session, " SESSION");
   return (
-    <div className="absolute sm:hidden top-0 left-0 bg-white w-full h-screen py-10 z-50">
+    <div className="absolute sm:hidden top-0 left-0 w-full h-screen py-10 z-50">
       <nav className="relative flex flex-col justify-start align-items-center  text-lg font-bold">
         <Link className="px-5 py-3 hover:bg-gray-400" href="#">
           Fields

@@ -1,0 +1,60 @@
+.font-regular {
+  font-family: var(--font-sf-pro-regular);
+}
+.font-regular-italic {
+  font-family: var(--font-sf-pro-regular-italic);
+}
+
+.font-medium {
+  font-family: var(--font-sf-pro-medium);
+}
+
+.font-medium-italic {
+  font-family: var(--font-sf-pro-medium-italic);
+}
+
+.font-bold {
+  font-family: var(--font-sf-pro-bold);
+}
+.font-bold-italic {
+  font-family: var(--font-sf-pro-bold-italic);
+}
+
+.font-semibold {
+  font-family: var(--font-sf-pro-semibold);
+}
+.font-semibold-italic {
+  font-family: var(--font-sf-pro-semibold-italic);
+}
+
+.font-heavy {
+  font-family: var(--font-sf-pro-heavy);
+}
+.font-heavy-italic {
+  font-family: var(--font-sf-pro-heavy-italic);
+}
+
+.font-light {
+  font-family: var(--font-sf-pro-light);
+}
+.font-light-italic {
+  font-family: var(--font-sf-pro-light-italic);
+}
+.font-ultralight {
+  font-family: var(--font-sf-pro-ultralight);
+}
+.font-ultralight-italic {
+  font-family: var(--font-sf-pro-ultralight-italic);
+}
+.font-black {
+  font-family: var(--font-sf-pro-black);
+}
+.font-black-italic {
+  font-family: var(--font-sf-pro-black-italic);
+}
+.font-thin {
+  font-family: var(--font-sf-pro-thin);
+}
+.font-thin-italic {
+  font-family: var(--font-sf-pro-thin-italic);
+}

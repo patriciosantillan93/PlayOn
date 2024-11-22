@@ -132,27 +132,28 @@ export default function BookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-screen overflow-scroll ">
         <DialogHeader>
           <DialogTitle>Book {field.nombre}</DialogTitle>
         </DialogHeader>
 
         {step === "selection" ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-              <div>
+            <div className="flex flex-col sm:flex-row justify-center items-start gap-6 mt-4 p-2  rounded-lg ">
+              <div className="h-full ">
                 <h3 className="font-medium mb-3">Select Date</h3>
                 <DayPicker
                   required
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
+                  className="w-fit rounded-md border p-4 shadow-lg "
                 />
               </div>
-              <div>
+              <div className="h-full ">
                 <h3 className="font-medium mb-3">Available Time Slots</h3>
-                <ScrollArea className="h-[300px] rounded-md border p-4">
-                  <div className="grid grid-cols-2 gap-2">
+                <ScrollArea className="rounded-md border p-4 shadow-lg">
+                  <div className="grid grid-cols-2 gap-2 ">
                     {fieldTimeSlots.map((slot) => (
                       <Button
                         key={slot.id}

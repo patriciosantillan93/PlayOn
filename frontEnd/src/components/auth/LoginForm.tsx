@@ -91,7 +91,11 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          type="submit"
+          className="w-full dark:border"
+          disabled={isLoading}
+        >
           {isLoading ? "Logging in..." : "Login"}
         </Button>
       </form>
