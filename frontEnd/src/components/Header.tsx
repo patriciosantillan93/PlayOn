@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { AuthModal } from "./auth/AuthModal";
 import { useState } from "react";
 import { useTheme } from "next-themes";
+import { ThemeToggle } from "./ui/ThemeToggle";
 
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -28,10 +29,10 @@ export default function Header() {
     <header className="border-b">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <CalendarDays className="h-6 w-6 text-primary" />
             <h1 className="text-2xl font-bold">PlayOn</h1>
-          </div>
+          </Link>
           <nav className="hidden sm:flex items-center space-x-6">
             <Link
               href="#"
@@ -47,7 +48,7 @@ export default function Header() {
             </Link>
           </nav>
           <div className="flex flex-row items-center gap-2">
-            <div>
+            {/* <div>
               {theme === "light" && (
                 <button onClick={() => setTheme("dark")}>Dark</button>
               )}
@@ -56,13 +57,17 @@ export default function Header() {
                   Light
                 </button>
               )}
-            </div>
-            {session ? (
+            </div> */}
+            <ThemeToggle />
+            {session?.user ? (
               <div className="hidden sm:flex items-center gap-4">
                 <span className="text-muted-foreground">
-                  Welcome, {session?.user?.name}
+                  Welcome, {session.user.name}
                 </span>
-                <Link href="#" className=" text-muted-foreground ">
+                <Link
+                  href={`/users/${session.user.id}/bookings`}
+                  className=" text-muted-foreground "
+                >
                   My Bookings
                 </Link>
                 <Button
@@ -116,7 +121,10 @@ export default function Header() {
           </Link>
           {session?.user && (
             <>
-              <Link href="#" className="px-5 py-3 hover:bg-gray-400">
+              <Link
+                href={`/users/${session.user.id}/bookings`}
+                className="px-5 py-3 hover:bg-gray-400"
+              >
                 My Bookings
               </Link>
               <button

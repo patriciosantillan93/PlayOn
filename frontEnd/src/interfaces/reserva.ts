@@ -13,16 +13,24 @@ export interface Reserva {
   timeSlot: TimeSlot;
   customerName: string;
   customerEmail: string;
-  totalPrice: number;
+  totalPrice?: number | null;
+}
+
+export interface CreateReservaDto {
+  userId: number;
+  canchaId: number;
+  fecha: string; // Format date to YYYY-MM-DD
+  horaInicio: string;
+  horaFin: string; // (formatted as "HH:mm" or "HH:mm:ss")
 }
 
 export interface ReservaFromDB {
-  id: string;
-  fieldId: string;
+  id: number;
   userId: string;
-  date: Date;
-  startTime: string;
-  endTime: string;
-  createdAt: Date;
-  updatedAt?: Date | null;
+  canchaId: string;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  updatedAt: string;
+  createdAt: string;
 }

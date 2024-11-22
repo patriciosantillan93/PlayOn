@@ -20,6 +20,7 @@ import { useSendEmail } from "@/hooks/useSendEmail";
 import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
 import { Spinner } from "@radix-ui/themes";
+import { CreateBooking } from "@/actions/bookings";
 
 interface BookingModalProps {
   field: CanchaFromDB | null;
@@ -68,7 +69,16 @@ export default function BookingModal({
   const fieldTimeSlots = timeSlots[field.id] || [];
   // const { sendEmail } = useSendEmail();
 
-  const handleConfirmBooking = async () => {
+  async function handleConfirmBooking() {
+    if (!session || !session.user?.id) {
+      toast({
+        title: "Booking Error",
+        description: "Please login to confirm booking.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!selectedTimeSlot) {
       toast({
         title: "Booking Error",
@@ -78,19 +88,30 @@ export default function BookingModal({
       return;
     }
 
+    const newBooking = {
+      userId: Number(session.user.id),
+      canchaId: Number(field?.id),
+      fecha: format(selectedDate, "yyyy-MM-dd"),
+      horaInicio: selectedTimeSlot.startTime,
+      horaFin: selectedTimeSlot.endTime,
+    };
     try {
-      await sendEmail({
-        email: contactInfo.email,
-        field: field?.name,
-        selectedDate,
-        selectedTimeSlot: `${selectedTimeSlot.startTime} - ${selectedTimeSlot.endTime}`,
-      });
-
+      console.log(newBooking + " NEW BOOKING");
+      // await sendEmail({
+      //   email: contactInfo.email,
+      //   field: field?.name,
+      //   selectedDate,
+      //   selectedTimeSlot: `${selectedTimeSlot.startTime} - ${selectedTimeSlot.endTime}`,
+      // });
+      const insertedBooking = await CreateBooking(newBooking);
+      if (!insertedBooking) {
+        throw new Error("Failed to create booking");
+      }
       toast({
         title: "Booking Confirmed!",
         description: "Check your email for booking details.",
       });
-      onClose(); // Close the modal
+      onClose();
     } catch (error) {
       if (error instanceof Error) {
         setMessage("Booking Error: " + error.message);
@@ -102,7 +123,7 @@ export default function BookingModal({
         });
       }
     }
-  };
+  }
 
   const handleBack = () => {
     setMessage("");
@@ -113,7 +134,7 @@ export default function BookingModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Book {field.name}</DialogTitle>
+          <DialogTitle>Book {field.nombre}</DialogTitle>
         </DialogHeader>
 
         {step === "selection" ? (
@@ -158,7 +179,7 @@ export default function BookingModal({
             </div>
             <div className="flex justify-between items-center mt-6">
               <div className="text-sm text-muted-foreground">
-                {selectedTimeSlot && <span>Total: ${field.hourlyRate}</span>}
+                {selectedTimeSlot && <span>Total: ${field.precioPorHora}</span>}
               </div>
               <div className="space-x-2">
                 <Button
@@ -184,7 +205,7 @@ export default function BookingModal({
             <div className="bg-muted/50 p-4 rounded-lg space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Field:</span>
-                <span className="font-medium">{field.name}</span>
+                <span className="font-medium">{field.nombre}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date:</span>
@@ -200,7 +221,7 @@ export default function BookingModal({
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Price:</span>
-                <span className="font-medium">${field.hourlyRate}</span>
+                <span className="font-medium">${field.precioPorHora}</span>
               </div>
             </div>
 

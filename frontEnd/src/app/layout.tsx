@@ -7,6 +7,7 @@ import Footer from "@/components/footer";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import "@radix-ui/themes/styles.css";
+import "@/styles/globals.css";
 import { Theme } from "@radix-ui/themes";
 import { ThemeProvider } from "next-themes";
 
