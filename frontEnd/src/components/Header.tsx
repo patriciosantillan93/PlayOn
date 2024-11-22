@@ -30,19 +30,19 @@ export default function Header() {
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <CalendarDays className="h-6 w-6 text-primary" />
+            <CalendarDays className="h-6 w-6 " />
             <h1 className="text-2xl font-bold">PlayOn</h1>
           </Link>
           <nav className="hidden sm:flex items-center space-x-6">
             <Link
               href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
             >
               Fields
             </Link>
             <Link
               href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
             >
               Contact
             </Link>
