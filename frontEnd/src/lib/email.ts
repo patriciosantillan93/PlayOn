@@ -1,9 +1,10 @@
-import nodemailer from 'nodemailer';
-import { Field, TimeSlot } from '../types';
-import { format } from 'date-fns';
+import nodemailer from "nodemailer";
+import { Cancha } from "@/interfaces/cancha";
+import { TimeSlot } from "@/interfaces/reserva";
+import { format } from "date-fns";
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
@@ -14,7 +15,7 @@ export async function sendBookingConfirmation(
   email: string,
   date: Date,
   timeSlot: TimeSlot,
-  field?: Field | any
+  field?: Cancha | any
 ) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -27,8 +28,10 @@ export async function sendBookingConfirmation(
         
         <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3 style="margin-top: 0;">${field.name}</h3>
-          <p><strong>Date:</strong> ${format(date, 'MMMM d, yyyy')}</p>
-          <p><strong>Time:</strong> ${timeSlot.startTime} - ${timeSlot.endTime}</p>
+          <p><strong>Date:</strong> ${format(date, "MMMM d, yyyy")}</p>
+          <p><strong>Time:</strong> ${timeSlot.startTime} - ${
+      timeSlot.endTime
+    }</p>
           <p><strong>Total Amount:</strong> $${field.hourlyRate}</p>
         </div>
         
@@ -46,7 +49,7 @@ export async function sendBookingConfirmation(
     await transporter.sendMail(mailOptions);
     return true;
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     return false;
   }
 }
