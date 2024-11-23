@@ -16,11 +16,11 @@ export function ThemeToggle() {
     >
       <Moon
         className="absolute h-5 w-5 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0 "
-        color={theme === "light" ? "#171717" : "#fafafa"}
+        color="#171717"
       />
       <Sun
         className="absolute h-5 w-5 dark:rotate-0 dark:scale-100 transition-transform -rotate-90 scale-0 "
-        color={theme === "light" ? "#171717" : "#fafafa"}
+        color="#fafafa"
       />
 
       <span className="sr-only">Toggle theme</span>

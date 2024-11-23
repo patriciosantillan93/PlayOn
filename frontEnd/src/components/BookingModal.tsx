@@ -13,7 +13,6 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { TimeSlot } from "@/interfaces/reserva";
 import { CanchaFromDB } from "@/interfaces/cancha";
-import { cn } from "../lib/utils";
 import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
 import { useSendEmail } from "@/hooks/useSendEmail";
@@ -22,20 +21,16 @@ import { useSession } from "next-auth/react";
 import { Spinner } from "@radix-ui/themes";
 import { CreateBooking } from "@/actions/bookings";
 
-interface BookingModalProps {
-  field: CanchaFromDB | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-type Step = "selection" | "confirmation";
-
 export default function BookingModal({
   field,
   isOpen,
   onClose,
-}: BookingModalProps) {
-  const [step, setStep] = useState<Step>("selection");
+}: {
+  field: CanchaFromDB | null;
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const [step, setStep] = useState<"selection" | "confirmation">("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
     null
@@ -143,6 +138,7 @@ export default function BookingModal({
               <div className="h-full w-full ">
                 <h3 className="font-medium mb-3">Select Date</h3>
                 <DayPicker
+                  disabled={{ before: new Date() }}
                   required
                   mode="single"
                   selected={selectedDate}

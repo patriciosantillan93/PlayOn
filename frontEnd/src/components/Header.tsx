@@ -35,33 +35,36 @@ export default function Header() {
           </Link>
           <nav className="hidden sm:flex items-center space-x-6">
             <Link
-              href="#"
+              href="/"
               className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
             >
               Fields
             </Link>
             <Link
-              href="#"
+              href="/contact"
               className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
             >
               Contact
             </Link>
+            {session?.user && (
+              <Link
+                href={`/users/bookings`}
+                className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
+              >
+                My Bookings
+              </Link>
+            )}
           </nav>
-          <div className="flex flex-row items-center gap-2">
+          <div className="hidden sm:flex flex-row items-center gap-2">
             <ThemeToggle />
             {session?.user ? (
-              <div className="hidden sm:flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <span className="text-muted-foreground">
                   Welcome, {session.user.name}
                 </span>
-                <Link
-                  href={`/users/bookings`}
-                  className=" text-muted-foreground "
-                >
-                  My Bookings
-                </Link>
+
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={() => signOut()}
                   className="flex text-sm text-muted-foreground"
@@ -88,11 +91,12 @@ export default function Header() {
           </div>
 
           <div
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             id="hamburguer-container"
-            className="sm:hidden flex flex-col justify-center place-items-center p-2 gap-2"
+            className="sm:hidden flex flex-row justify-center place-items-center p-2 gap-2"
           >
+            <ThemeToggle />
             <Menu
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               size={40}
               className={`text-gray-500 ${
                 isMobileMenuOpen ? "rotate-90 scale-0 " : "rotate-0 scale-100 "
@@ -107,10 +111,10 @@ export default function Header() {
         }`}
       >
         <nav className="relative flex flex-col justify-start place-tems-center  text-lg font-bold">
-          <Link className="px-5 py-3 hover:bg-gray-400" href="#">
+          <Link className="px-5 py-3 hover:bg-gray-400" href="/">
             Fields
           </Link>
-          <Link className="px-5 py-3 hover:bg-gray-400" href="#">
+          <Link className="px-5 py-3 hover:bg-gray-400" href="/contact">
             Contact
           </Link>
           {session?.user && (

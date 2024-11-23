@@ -1,4 +1,4 @@
-import { TimeSlot } from "@/types";
+import { TimeSlot } from "@/interfaces/reserva";
 
 const generateTimeSlots = (fieldId: string): TimeSlot[] => {
   const slots: TimeSlot[] = [];
@@ -19,7 +19,7 @@ const generateTimeSlots = (fieldId: string): TimeSlot[] => {
 };
 
 export const timeSlots: Record<string, TimeSlot[]> = {
-  '1': generateTimeSlots('1'),
-  '2': generateTimeSlots('2'),
-  '3': generateTimeSlots('3'),
+  "1": generateTimeSlots("1"),
+  "2": generateTimeSlots("2"),
+  "3": generateTimeSlots("3"),
 };
