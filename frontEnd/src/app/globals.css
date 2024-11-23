@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fafafa;
+  --foreground: #171717;
+}
+
+.dark {
+  --background: #171717;
+  --foreground: #fafafa;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "SF Pro", "Segoe UI", Helvetica, sans-serif;
+}
+
+main {
+  @apply dark:bg-slate-600 font-regular tracking-wide;
+}
+
+footer {
+  @apply flex flex-col items-center p-5 font-thin tracking-widest shadow-[rgba(0,0,0,0.8)_0px_-25px_-25px_0px];
+}
+
+section.container {
+  @apply rounded-lg shadow-lg;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 1rem;
+}
+
+.scheduler {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+}
+
+.interview-details {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.date-time-selector {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-selector,
+.time-slot-grid {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.date-button,
+.time-slot-button {
+  background: #f1f5f9;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.date-button.selected,
+.time-slot-button.selected {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+button {
+  @apply hover:bg-slate-200 dark:hover:bg-slate-900 dark:bg-background;
+}
+
+.font-regular {
+  font-family: var(--font-sf-pro-regular);
+}
+.font-regular-italic {
+  font-family: var(--font-sf-pro-regular-italic);
+}
+
+.font-medium {
+  font-family: var(--font-sf-pro-medium);
+}
+
+.font-medium-italic {
+  font-family: var(--font-sf-pro-medium-italic);
+}
+
+.font-bold {
+  font-family: var(--font-sf-pro-bold);
+}
+.font-bold-italic {
+  font-family: var(--font-sf-pro-bold-italic);
+}
+
+.font-semibold {
+  font-family: var(--font-sf-pro-semibold);
+}
+.font-semibold-italic {
+  font-family: var(--font-sf-pro-semibold-italic);
+}
+
+.font-heavy {
+  font-family: var(--font-sf-pro-heavy);
+}
+.font-heavy-italic {
+  font-family: var(--font-sf-pro-heavy-italic);
+}
+
+.font-light {
+  font-family: var(--font-sf-pro-light);
+}
+.font-light-italic {
+  font-family: var(--font-sf-pro-light-italic);
+}
+.font-ultralight {
+  font-family: var(--font-sf-pro-ultralight);
+}
+.font-ultralight-italic {
+  font-family: var(--font-sf-pro-ultralight-italic);
+}
+.font-black {
+  font-family: var(--font-sf-pro-black);
+}
+.font-black-italic {
+  font-family: var(--font-sf-pro-black-italic);
+}
+.font-thin {
+  font-family: var(--font-sf-pro-thin);
+}
+.font-thin-italic {
+  font-family: var(--font-sf-pro-thin-italic);
+}
