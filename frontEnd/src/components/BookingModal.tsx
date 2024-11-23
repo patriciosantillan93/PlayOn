@@ -127,7 +127,7 @@ export default function BookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className=" max-h-screen overflow-scroll ">
+      <DialogContent className="w-full sm:w-auto max-h-screen overflow-scroll ">
         <DialogHeader>
           <DialogTitle>Book {field.nombre}</DialogTitle>
         </DialogHeader>
@@ -202,7 +202,7 @@ export default function BookingModal({
             </div>
           </>
         ) : (
-          <div className="mt-4 space-y-6">
+          <div className=" mt-4 space-y-6">
             <div className="bg-muted/50 p-4 rounded-lg space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Field:</span>
