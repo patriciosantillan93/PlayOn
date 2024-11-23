@@ -17,11 +17,10 @@ export default function MyBookings() {
   const session = useSession();
   const router = useRouter();
 
-  if (session.status === "unauthenticated") {
-    router.push("/");
-  }
-
   useEffect(() => {
+    if (session.status === "unauthenticated") {
+      router.push("/");
+    }
     fetch(`http://localhost:5000/reservas/usuario/${session.data?.user?.id}`)
       .then((res) => res.json())
       .then((data) => {
