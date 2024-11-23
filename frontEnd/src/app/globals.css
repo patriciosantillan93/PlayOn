@@ -92,6 +92,10 @@ section.container {
   color: #ffffff;
 }
 
+button {
+  @apply hover:bg-slate-200 dark:hover:bg-slate-900 dark:bg-background;
+}
+
 .font-regular {
   font-family: var(--font-sf-pro-regular);
 }

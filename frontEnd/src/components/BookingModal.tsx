@@ -132,15 +132,15 @@ export default function BookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-screen overflow-scroll ">
+      <DialogContent className=" max-h-screen overflow-scroll ">
         <DialogHeader>
           <DialogTitle>Book {field.nombre}</DialogTitle>
         </DialogHeader>
 
         {step === "selection" ? (
           <>
-            <div className="flex flex-col sm:flex-row justify-center items-start gap-6 mt-4 p-2  rounded-lg ">
-              <div className="h-full ">
+            <div className=" flex flex-col sm:flex-row justify-center items-start gap-6 mt-4 p-2  rounded-lg ">
+              <div className="h-full w-full ">
                 <h3 className="font-medium mb-3">Select Date</h3>
                 <DayPicker
                   required
@@ -150,10 +150,10 @@ export default function BookingModal({
                   className="w-fit rounded-md border p-4 shadow-lg "
                 />
               </div>
-              <div className="h-full ">
+              <div className="h-full w-full ">
                 <h3 className="font-medium mb-3">Available Time Slots</h3>
                 <ScrollArea className="rounded-md border p-4 shadow-lg">
-                  <div className="grid grid-cols-2 gap-2 ">
+                  <div className="grid grid-cols-2 gap-2 p-1">
                     {fieldTimeSlots.map((slot) => (
                       <Button
                         key={slot.id}
@@ -162,12 +162,16 @@ export default function BookingModal({
                             ? "default"
                             : "outline"
                         }
-                        className={cn(
-                          "w-full transition-transform duration-150",
-                          selectedTimeSlot?.id === slot.id &&
-                            "border-2 border-blue-500 bg-blue-100 transform scale-102",
-                          !slot.isAvailable && "opacity-50 cursor-not-allowed"
-                        )}
+                        className={`
+                          "border-2 transition-transform duration-150",
+                          ${
+                            selectedTimeSlot?.id === slot.id &&
+                            "border-2 border-[#0000ff]  font-bold"
+                          }
+                          ${
+                            !slot.isAvailable && "opacity-50 cursor-not-allowed"
+                          }
+                        `}
                         disabled={!slot.isAvailable}
                         onClick={() => setSelectedTimeSlot(slot)}
                       >
@@ -179,7 +183,7 @@ export default function BookingModal({
               </div>
             </div>
             <div className="flex justify-between items-center mt-6">
-              <div className="text-sm text-muted-foreground">
+              <div className="font-semibold">
                 {selectedTimeSlot && <span>Total: ${field.precioPorHora}</span>}
               </div>
               <div className="space-x-2">

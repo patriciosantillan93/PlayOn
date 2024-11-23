@@ -52,7 +52,7 @@ export default function FieldCard({ field, onBookNow }: FieldCardProps) {
         </CardContent>
         <CardFooter>
           <Button
-            className="border w-full hover:bg-slate-200 dark:hover:bg-slate-900 dark:bg-background"
+            className="border w-full "
             onClick={() => onBookNow(field.id)}
           >
             Book Now
