@@ -16,12 +16,13 @@ export default function MyBookings() {
   const { toast } = useToast();
   const session = useSession();
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     if (session.status === "unauthenticated") {
       router.push("/");
     }
-    fetch(`http://localhost:5000/reservas/usuario/${session.data?.user?.id}`)
+    fetch(`${API_URL}/reservas/usuario/${session.data?.user?.id}`)
       .then((res) => res.json())
       .then((data) => {
         setBookings(data);

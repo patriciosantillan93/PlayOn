@@ -1,21 +1,23 @@
 // app/components/Register.tsx
 
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import styles from './Register.module.css';
+import React, { useState } from "react";
+import styles from "./Register.module.css";
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -25,7 +27,7 @@ const Register: React.FC = () => {
     const userData = { username, email, password };
 
     try {
-      const response = await fetch("http://localhost:5000/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -34,7 +36,7 @@ const Register: React.FC = () => {
       if (response.ok) {
         const result = await response.json();
         setMessage(result.message);
-        console.log('User registered:', result);
+        console.log("User registered:", result);
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to register");
@@ -89,7 +91,7 @@ const Register: React.FC = () => {
         <button type="submit">Register</button>
       </form>
       <p>
-      Already have an account? <a href="/login">Login here</a>
+        Already have an account? <a href="/login">Login here</a>
       </p>
     </div>
   );

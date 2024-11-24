@@ -42,14 +42,16 @@ export default function BookingCard({
             </div>
           </div>
         </CardContent>
-        <CardFooter>
-          <Button
-            className="dark:border dark:bg-background shadow-lg"
-            onClick={() => onDelete(booking.id)}
-          >
-            Cancelar
-          </Button>
-        </CardFooter>
+        {new Date(booking.fecha) > new Date() && (
+          <CardFooter>
+            <Button
+              className="dark:border dark:bg-background shadow-lg"
+              onClick={() => onDelete(booking.id)}
+            >
+              Cancelar
+            </Button>
+          </CardFooter>
+        )}
       </div>
     </Card>
   );

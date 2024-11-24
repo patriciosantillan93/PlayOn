@@ -3,7 +3,7 @@ export interface TimeSlot {
   startTime: string;
   endTime: string;
   isAvailable: boolean;
-  fieldId: string;
+  fieldId?: string;
 }
 
 export interface Reserva {

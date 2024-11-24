@@ -46,3 +46,6 @@ next-env.d.ts
 package-lock.json
 
 .next
+
+# Mock data
+/frontend/src/data/

@@ -1,3 +1,5 @@
+import { TimeSlot } from "./reserva";
+
 export interface Cancha {
   nombre: string;
   tipo: "soccer" | "basketball" | "tennis" | "volleyball";

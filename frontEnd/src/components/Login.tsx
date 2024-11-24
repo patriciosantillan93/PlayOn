@@ -11,6 +11,8 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
@@ -41,7 +43,7 @@ export function LoginForm({ onSuccess, closeDialog }: LoginFormProps) {
     const loginData = { email: data.email, password: data.password };
 
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
