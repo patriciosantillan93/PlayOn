@@ -12,9 +12,10 @@ export default function App() {
   const [selectedField, setSelectedField] = useState<CanchaFromDB | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [fields, setFields] = useState<CanchaFromDB[]>([]);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   useEffect(() => {
-    fetch("http://localhost:5000/canchas")
+    fetch(`${API_URL}/canchas`)
       .then((res) => res.json())
       .then((data) => {
         setFields(data);

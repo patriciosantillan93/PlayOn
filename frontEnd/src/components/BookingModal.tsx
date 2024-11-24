@@ -89,8 +89,6 @@ export default function BookingModal({
     }
   }, [field, selectedDate]);
 
-  // const { sendEmail } = useSendEmail();
-
   async function handleConfirmBooking() {
     setIsLoading(true);
     if (!session || !session.user?.id) {
