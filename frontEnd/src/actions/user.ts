@@ -3,6 +3,8 @@
 import { signIn } from "@/auth";
 import { LoginDto, RegisterDto } from "@/interfaces/user";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 export async function login(loginData: LoginDto) {
   const email = loginData.email;
   const password = loginData.password;
@@ -16,7 +18,7 @@ export async function login(loginData: LoginDto) {
 }
 
 export async function register(registerData: RegisterDto) {
-  const response = await fetch("http://localhost:5000/auth/register", {
+  const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(registerData),
