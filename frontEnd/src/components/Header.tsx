@@ -55,8 +55,10 @@ export default function Header() {
               </Link>
             )}
           </nav>
-          <div className="hidden sm:flex flex-row items-center gap-2">
-            <ThemeToggle />
+          <div className="flex flex-row items-center gap-2">
+            <div className="hidden sm:flex items-center ">
+              <ThemeToggle />
+            </div>
             {session?.user ? (
               <div className="flex items-center gap-4">
                 <span className="text-muted-foreground">

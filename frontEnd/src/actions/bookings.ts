@@ -24,7 +24,25 @@ export async function CreateBooking(
   return insertedBooking;
 }
 
-export async function GetBookings(userId: number): Promise<ReservaFromDB[]> {
+export async function GetBookingsByFieldID(
+  date: string,
+  fieldId?: number
+): Promise<ReservaFromDB[]> {
+  if (!fieldId) {
+    throw new Error("Missing Field ID");
+  }
+  const response = await fetch(
+    `http://localhost:5000/reservas/cancha/${fieldId}?fecha=${date}` // YYYY-MM-DD
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch reservations");
+  }
+  return await response.json();
+}
+
+export async function GetBookingsByUserID(
+  userId: number
+): Promise<ReservaFromDB[]> {
   const response = await fetch(
     `http://localhost:5000/reservas/usuario/${userId}`,
     {
