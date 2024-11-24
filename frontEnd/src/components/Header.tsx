@@ -7,7 +7,6 @@ import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./auth/AuthModal";
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
 export default function Header() {
@@ -16,9 +15,7 @@ export default function Header() {
   const [authModalTab, setAuthModalTab] = useState<"login" | "register">(
     "login"
   );
-  const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
-  console.log(session, " SESSION");
 
   const openAuthModal = (tab: "login" | "register") => {
     setAuthModalTab(tab);

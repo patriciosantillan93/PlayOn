@@ -7,9 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateTimeSlots(
-  reservations: ReservaFromDB[],
+  bookings: ReservaFromDB[],
+  date: string,
   fieldId?: number,
-  date?: string,
   workingHours?: { start: string; end: string }
 ) {
   const slots: TimeSlot[] = [];
@@ -18,15 +18,13 @@ export function generateTimeSlots(
     : 8;
   const endHour = workingHours ? parseInt(workingHours.end.split(":")[0]) : 22;
 
+  console.log("bookings", bookings);
   for (let hour = startHour; hour < endHour; hour++) {
-    const id = `${fieldId ?? "999"}-${hour}`;
-    const startTime = `${hour.toString().padStart(2, "0")}:00`;
-    const endTime = `${(hour + 1).toString().padStart(2, "0")}:00`;
-
-    const isAvailable = !reservations.some((reservation) => {
-      return (
-        reservation.horaInicio < endTime && reservation.horaFin > startTime
-      );
+    const id = `${fieldId ?? "999"}-${date}-${hour}`;
+    const startTime = `${hour.toString().padStart(2, "0")}:00:00`;
+    const endTime = `${(hour + 1).toString().padStart(2, "0")}:00:00`;
+    const isAvailable = !bookings.some((b) => {
+      return b.horaInicio === startTime && b.horaFin === endTime;
     });
 
     slots.push({
@@ -38,4 +36,11 @@ export function generateTimeSlots(
   }
 
   return slots;
+}
+
+// convert "HH:MM:SS" to "HH:MM"
+export function formatTime(timeString: string) {
+  // Split the time string by ":" and take the first two parts (HH and MM)
+  const [hours, minutes] = timeString.split(":");
+  return `${hours}:${minutes}`;
 }

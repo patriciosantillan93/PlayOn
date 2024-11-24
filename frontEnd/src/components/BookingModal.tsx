@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Button } from "../components/ui/button";
-import { timeSlots } from "@/data/timeSlots";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { TimeSlot } from "@/interfaces/reserva";
@@ -19,7 +18,7 @@ import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
 import { Spinner } from "@radix-ui/themes";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
-import { generateTimeSlots } from "@/lib/utils";
+import { formatTime, generateTimeSlots } from "@/lib/utils";
 
 export default function BookingModal({
   field,
@@ -64,11 +63,15 @@ export default function BookingModal({
 
       async function fetchAndSetTimeSlots() {
         try {
-          const reservations = await GetBookingsByFieldID(
+          const selectedDateExistingBookings = await GetBookingsByFieldID(
             formattedDate,
             field?.id
           );
-          const timeSlots = generateTimeSlots(reservations, field?.id);
+          const timeSlots = generateTimeSlots(
+            selectedDateExistingBookings,
+            formattedDate,
+            field?.id
+          );
           setFieldTimeSlots(timeSlots);
         } catch (error) {
           console.error("Error fetching reservations:", error);
@@ -81,6 +84,8 @@ export default function BookingModal({
       }
 
       fetchAndSetTimeSlots();
+      setSelectedTimeSlot(null);
+      console.log(selectedTimeSlot);
     }
   }, [field, selectedDate]);
 
@@ -172,9 +177,9 @@ export default function BookingModal({
                     <div className="grid grid-cols-2 gap-2 p-1">
                       {fieldTimeSlots.map((slot) => (
                         <Button
-                          key={field.id + slot.startTime}
+                          key={slot.id}
                           variant={
-                            selectedTimeSlot?.startTime === slot.startTime
+                            selectedTimeSlot?.id === slot.id
                               ? "default"
                               : "outline"
                           }
@@ -191,7 +196,8 @@ export default function BookingModal({
                           disabled={!slot.isAvailable}
                           onClick={() => setSelectedTimeSlot(slot)}
                         >
-                          {slot.startTime} - {slot.endTime}
+                          {formatTime(slot.startTime)} -{" "}
+                          {formatTime(slot.endTime)}
                         </Button>
                       ))}
                     </div>
