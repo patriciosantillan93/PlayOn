@@ -18,14 +18,33 @@ export function generateTimeSlots(
     : 8;
   const endHour = workingHours ? parseInt(workingHours.end.split(":")[0]) : 22;
 
-  console.log("bookings", bookings);
+  // format date to check if its today regardless of UTC timezone
+  const dateParts = date.split("-");
+  const currentDate = new Date(
+    parseInt(dateParts[0]), // Year
+    parseInt(dateParts[1]) - 1, // Month (0-indexed)
+    parseInt(dateParts[2]) // Day
+  );
+  const now = new Date();
+  const isToday = currentDate.toDateString() === now.toDateString();
+  console.log("date", date);
+  console.log("isToday", isToday);
+  console.log("currentDate", currentDate);
+  console.log("now", now);
+
   for (let hour = startHour; hour < endHour; hour++) {
     const id = `${fieldId ?? "999"}-${date}-${hour}`;
     const startTime = `${hour.toString().padStart(2, "0")}:00:00`;
     const endTime = `${(hour + 1).toString().padStart(2, "0")}:00:00`;
-    const isAvailable = !bookings.some((b) => {
-      return b.horaInicio === startTime && b.horaFin === endTime;
-    });
+    const slotStartDateTime = new Date(currentDate);
+    slotStartDateTime.setHours(hour, 0, 0, 0); // Set hour, minutes, seconds
+
+    // Check if there is any existing booking with matching start and end time
+    const isAvailable =
+      !bookings.some((b) => {
+        return b.horaInicio === startTime && b.horaFin === endTime;
+      }) &&
+      (!isToday || slotStartDateTime > now);
 
     slots.push({
       id,
