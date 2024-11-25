@@ -16,7 +16,7 @@ exports.sendEmail = async (req, res) => {
       //service: "Gmail", // Replace with your email provider
       host: process.env.EMAIL_HOST, // Replace with your SMTP server
       port: process.env.EMAIL_PORT, // Typically 587 for TLS or 465 for SSL; check with your server settings
-      secure: false, // Set to true if using SSL/TLS
+      secure: process.env.EMAIL_SECURE,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -24,7 +24,7 @@ exports.sendEmail = async (req, res) => {
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Booking Confirmation",
       text: `Your booking for ${field} on ${date} at ${timeSlot} is confirmed.`,

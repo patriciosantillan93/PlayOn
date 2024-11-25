@@ -66,7 +66,7 @@ export default function Header() {
                   variant="outline"
                   size="sm"
                   onClick={() => signOut()}
-                  className="flex text-sm text-muted-foreground"
+                  className="hidden sm:flex text-sm text-muted-foreground"
                 >
                   Logout
                 </Button>
@@ -110,15 +110,24 @@ export default function Header() {
         }`}
       >
         <nav className="relative flex flex-col justify-start place-tems-center  text-lg font-bold">
-          <Link className="px-5 py-3 hover:bg-gray-400" href="/">
+          <Link
+            className="px-5 py-3 hover:bg-gray-400"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            href="/"
+          >
             Fields
           </Link>
-          <Link className="px-5 py-3 hover:bg-gray-400" href="/contact">
+          <Link
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="px-5 py-3 hover:bg-gray-400"
+            href="/contact"
+          >
             Contact
           </Link>
           {session?.user && (
             <>
               <Link
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 href={`/users/bookings`}
                 className="px-5 py-3 hover:bg-gray-400"
               >
