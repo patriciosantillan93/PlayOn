@@ -148,7 +148,10 @@ export default function BookingModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       {field && (
-        <DialogContent className="w-full sm:w-auto max-h-screen overflow-scroll ">
+        <DialogContent
+          aria-describedby={undefined}
+          className="w-full sm:w-auto max-h-screen overflow-scroll "
+        >
           <DialogHeader>
             <DialogTitle>Book {field.nombre}</DialogTitle>
           </DialogHeader>
