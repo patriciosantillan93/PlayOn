@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "../../hooks/useToast";
 import { register } from "@/actions/user";
+import { Button } from "@/components/ui/button";
 
 const registerSchema = z
   .object({
@@ -134,13 +135,9 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         )}
       </div>
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full p-2 mt-4 bg-blue-600 text-white rounded disabled:bg-gray-400"
-      >
+      <Button type="submit" disabled={isLoading} className="w-full dark:border">
         {isLoading ? "Creating account..." : "Create account"}
-      </button>
+      </Button>
     </form>
   );
 }
