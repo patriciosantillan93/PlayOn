@@ -5,7 +5,7 @@ import { login } from "./actions/auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
-  secret: process.env.JWT_SECRET || "session_jwt_secret",
+  secret: process.env.NEXT_JWT_SECRET ?? "session_jwt_secret",
   providers: [
     Credentials({
       name: "Credentials",
@@ -44,7 +44,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.username = (user as LoginResponse["payload"]).name;
         token.email = (user as LoginResponse["payload"]).email;
-    
       }
       return token;
     },

@@ -2,7 +2,7 @@
 
 import { CreateReservaDto, ReservaFromDB } from "@/interfaces/reserva";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
 export async function CreateBooking(
   bookingData: CreateReservaDto

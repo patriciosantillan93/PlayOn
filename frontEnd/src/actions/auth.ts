@@ -3,7 +3,7 @@
 import { signOut } from "@/auth";
 import { LoginDto, UserFromDB } from "@/interfaces/user";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
 export async function login(loginData: LoginDto) {
   console.log("login function");

@@ -3,7 +3,7 @@
 import { signIn } from "@/auth";
 import { LoginDto, RegisterDto } from "@/interfaces/user";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
 export async function login(loginData: LoginDto) {
   const email = loginData.email;
