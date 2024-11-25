@@ -27,10 +27,6 @@ export function generateTimeSlots(
   );
   const now = new Date();
   const isToday = currentDate.toDateString() === now.toDateString();
-  console.log("date", date);
-  console.log("isToday", isToday);
-  console.log("currentDate", currentDate);
-  console.log("now", now);
 
   for (let hour = startHour; hour < endHour; hour++) {
     const id = `${fieldId ?? "999"}-${date}-${hour}`;

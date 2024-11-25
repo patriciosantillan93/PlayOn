@@ -85,7 +85,6 @@ export default function BookingModal({
 
       fetchAndSetTimeSlots();
       setSelectedTimeSlot(null);
-      console.log(selectedTimeSlot);
     }
   }, [field, selectedDate]);
 
@@ -117,7 +116,6 @@ export default function BookingModal({
       horaFin: selectedTimeSlot.endTime,
     };
     try {
-      console.log(newBooking + " NEW BOOKING");
       const insertedBooking = await CreateBooking(newBooking);
       if (!insertedBooking) {
         throw new Error("Failed to create booking");

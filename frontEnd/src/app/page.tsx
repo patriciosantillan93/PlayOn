@@ -29,7 +29,7 @@ export default function App() {
       : fields.filter((field) => field.tipo === selectedType);
 
   const handleBookNow = (fieldId: number) => {
-    console.log("Booking field with ID:", fieldId);
+
     const field = fields.find((f) => f.id === fieldId);
     if (field) {
       setSelectedField(field);
