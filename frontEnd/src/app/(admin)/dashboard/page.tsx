@@ -12,6 +12,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [fields, setFields] = useState<CanchaFromDB[]>([]);
   const [action, setAction] = useState<"creating" | "editing">("creating");
+  const [selectedField, setSelectedField] = useState<CanchaFromDB | null>(null);
   const { toast } = useToast();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
@@ -28,7 +29,7 @@ export default function AdminDashboard() {
 
   async function handleDeleteField(id: number) {
     try {
-     await deleteField(id);
+      await deleteField(id);
       toast({
         title: "Success",
         description: "Court deleted successfully",
@@ -58,7 +59,27 @@ export default function AdminDashboard() {
           </div>
           <div className="mb-5">
             {action === "creating" && (
-              <CreateFieldForm onSuccess={() => window.location.reload()} />
+              <div className="flex flex-col gap-5">
+                <h1>Create new court</h1>
+                <CreateFieldForm onSuccess={() => window.location.reload()} />
+              </div>
+            )}
+            {action === "editing" && (
+              <div className="flex flex-col gap-5">
+                <div className="flex flex-row justify-between items-center">
+                  <h1>Edit {selectedField?.nombre}</h1>
+                  <Button
+                    variant="outline"
+                    onClick={() => setAction("creating")}
+                  >
+                    Create new
+                  </Button>
+                </div>
+                <CreateFieldForm
+                  onSuccess={() => window.location.reload()}
+                  fieldToEdit={selectedField || undefined}
+                />
+              </div>
             )}
           </div>
           <div className="w-full flex flex-col justify-start gap-5 p-1 ">
@@ -81,10 +102,21 @@ export default function AdminDashboard() {
                     <td className="max-w-36 truncate ">{f.nombre}</td>
                     <td>{f.tipo}</td>
                     <td className="py-2 flex flex-col sm:flex-row items-center gap-2">
-                      <Button variant="default" className="w-16 p-1">
+                      <Button
+                        variant="default"
+                        className="w-16 p-1"
+                        onClick={() => {
+                          setAction("editing");
+                          setSelectedField(f);
+                        }}
+                      >
                         Edit
                       </Button>
-                      <Button variant="destructive" className="w-16 p-1" onClick={() => handleDeleteField(f.id)}>
+                      <Button
+                        variant="destructive"
+                        className="w-16 p-1"
+                        onClick={() => handleDeleteField(f.id)}
+                      >
                         Delete
                       </Button>
                     </td>

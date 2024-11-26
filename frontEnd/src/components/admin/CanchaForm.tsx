@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "../../hooks/useToast";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@radix-ui/themes";
-import { createField } from "@/actions/field";
-import { CreateCanchaDto } from "@/interfaces/cancha";
+import { createField, updateField } from "@/actions/field";
+import { CanchaFromDB, CreateCanchaDto } from "@/interfaces/cancha";
 
 const fieldSchema = z.object({
   nombre: z.string().min(3, "Name must be at least 3 characters"),
@@ -22,8 +22,10 @@ type CreateFieldFormValues = z.infer<typeof fieldSchema>;
 
 export default function CreateFieldForm({
   onSuccess,
+  fieldToEdit,
 }: {
   onSuccess: () => void;
+  fieldToEdit?: CanchaFromDB;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -41,6 +43,20 @@ export default function CreateFieldForm({
     },
   });
 
+  useEffect(() => {
+    if (fieldToEdit) {
+      form.reset({
+        nombre: fieldToEdit.nombre,
+        tipo: fieldToEdit.tipo,
+        precioPorHora: fieldToEdit.precioPorHora ?? 0,
+        imagen: fieldToEdit.imagen ?? "",
+        descripcion: fieldToEdit.descripcion ?? "",
+        dimensiones: fieldToEdit.dimensiones ?? "",
+        cantJugadores: fieldToEdit.cantJugadores ?? 0,
+      });
+    }
+  }, [fieldToEdit, form]);
+
   const onSubmit = async (data: CreateFieldFormValues) => {
     setIsLoading(true);
     const newField: CreateCanchaDto = {
@@ -54,12 +70,21 @@ export default function CreateFieldForm({
     };
 
     try {
-      await createField(newField);
+      if (fieldToEdit) {
+        await updateField(fieldToEdit.id, newField);
+        toast({
+          title: "Success",
+          description: "Court has been updated.",
+        });
+      } else {
+        // If creating a new field, call createField
+        await createField(newField);
+        toast({
+          title: "Success",
+          description: "New Court has been created.",
+        });
+      }
       onSuccess();
-      toast({
-        title: "Success",
-        description: "New Court has been created.",
-      });
     } catch (error: any) {
       toast({
         title: "Error",
@@ -73,7 +98,6 @@ export default function CreateFieldForm({
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:w-1/2">
-      <h1>Create new court</h1>
       <div className="space-y-1">
         <label htmlFor="name" className="block text-sm font-semibold">
           Name
@@ -188,7 +212,7 @@ export default function CreateFieldForm({
       </div>
 
       <Button type="submit" disabled={isLoading} className="w-full dark:border">
-        {isLoading ? <Spinner /> : "Create"}
+        {isLoading ? <Spinner /> : fieldToEdit ? "Update" : "Create"}
       </Button>
     </form>
   );
