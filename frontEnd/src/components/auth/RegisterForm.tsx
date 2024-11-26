@@ -47,13 +47,14 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         title: "Success",
         description: "Your account has been created.",
       });
-    } catch (error: any) {
-      // Show specific error message from the register function
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
