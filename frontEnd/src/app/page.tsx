@@ -54,6 +54,7 @@ export default function App() {
             <option value="soccer">Soccer</option>
             <option value="basketball">Basketball</option>
             <option value="tennis">Tennis</option>
+            <option value="volleyball">Volleyball</option>
           </select>
         </div>
       </div>
