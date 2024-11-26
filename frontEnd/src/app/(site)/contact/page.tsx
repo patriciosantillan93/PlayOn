@@ -2,7 +2,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
 import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
@@ -16,20 +15,11 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-interface ContactFormProps {
-  onSuccess: () => void;
-  closeDialog: () => void; // Add a prop to close the dialog
-}
-
-export default function ContactPage({
-  onSuccess,
-  closeDialog,
-}: ContactFormProps) {
+export default function ContactPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { toast } = useToast();
-  const router = useRouter();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
