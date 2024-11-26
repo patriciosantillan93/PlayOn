@@ -21,6 +21,22 @@ export default function BookingCard({
   const { id, canchaId, fecha, horaInicio, horaFin } = booking;
   const weekDay = getWeekDay(booking.fecha);
   const formattedDate = booking.fecha.split("-").reverse().join("-");
+  // Create a Date object for the booking's start time
+  const [year, month, day] = fecha.split("-");
+  const [hour, minute] = horaInicio.split(":");
+  const bookingStartTime = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(minute)
+  );
+
+  // Get the current date and time
+  const now = new Date();
+
+  // Check if the booking can be cancelled (at least 1 hour in advance)
+  const canCancel = bookingStartTime > new Date(now.getTime() + 60 * 60 * 1000);
   return (
     <Card className="overflow-hidden tracking-wider">
       <div className="dark:bg-slate-600">
@@ -40,13 +56,13 @@ export default function BookingCard({
             </div>
           </div>
         </CardContent>
-        {new Date(fecha) > new Date() && (
+        {canCancel && (
           <CardFooter>
             <Button
               className="dark:border dark:bg-background shadow-lg"
               onClick={() => onDelete(id)}
             >
-              Cancelar
+              Cancel
             </Button>
           </CardFooter>
         )}

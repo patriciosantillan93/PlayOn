@@ -16,7 +16,6 @@ import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
-import { Spinner } from "@radix-ui/themes";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
 import { formatTime, generateTimeSlots } from "@/lib/utils";
 
@@ -325,7 +324,7 @@ export default function BookingModal({
                     !contactInfo.phone
                   }
                 >
-                  {isLoading ? <Spinner /> : "Confirm Booking"}
+                  {isLoading ? "Loading...": "Confirm Booking"}
                 </Button>
               </div>
             </div>

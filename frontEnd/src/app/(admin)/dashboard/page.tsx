@@ -5,11 +5,13 @@ import { CanchaFromDB } from "@/interfaces/cancha";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/button";
-import CreateFieldForm from "@/components/admin/CanchaForm";
+import CreateOrEditFieldForm from "@/components/admin/CanchaForm";
 import { deleteField } from "@/actions/field";
+import ConfirmActionModal from "@/components/ConfirmActionModal";
 
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [fields, setFields] = useState<CanchaFromDB[]>([]);
   const [action, setAction] = useState<"creating" | "editing">("creating");
   const [selectedField, setSelectedField] = useState<CanchaFromDB | null>(null);
@@ -27,7 +29,8 @@ export default function AdminDashboard() {
   }, []);
   if (isLoading) return <p>Loading...</p>;
 
-  async function handleDeleteField(id: number) {
+  async function handleDeleteField(id?: number) {
+    if (!id) return;
     try {
       await deleteField(id);
       toast({
@@ -60,14 +63,18 @@ export default function AdminDashboard() {
           <div className="mb-5">
             {action === "creating" && (
               <div className="flex flex-col gap-5">
-                <h1>Create new court</h1>
-                <CreateFieldForm onSuccess={() => window.location.reload()} />
+                <h1 className="font-semibold text-xl">Create new court</h1>
+                <CreateOrEditFieldForm
+                  onSuccess={() => window.location.reload()}
+                />
               </div>
             )}
             {action === "editing" && (
               <div className="flex flex-col gap-5">
                 <div className="flex flex-row justify-between items-center">
-                  <h1>Edit {selectedField?.nombre}</h1>
+                  <h1 className="font-semibold text-xl">
+                    Edit {selectedField?.nombre}
+                  </h1>
                   <Button
                     variant="outline"
                     onClick={() => setAction("creating")}
@@ -75,7 +82,7 @@ export default function AdminDashboard() {
                     Create new
                   </Button>
                 </div>
-                <CreateFieldForm
+                <CreateOrEditFieldForm
                   onSuccess={() => window.location.reload()}
                   fieldToEdit={selectedField || undefined}
                 />
@@ -83,6 +90,7 @@ export default function AdminDashboard() {
             )}
           </div>
           <div className="w-full flex flex-col justify-start gap-5 p-1 ">
+            <h1 className="text-2xl font-bold">Active Courts</h1>
             <table>
               <thead>
                 <tr className="text-left text-md font-semibold">
@@ -103,7 +111,7 @@ export default function AdminDashboard() {
                     <td>{f.tipo}</td>
                     <td className="py-2 flex flex-col sm:flex-row items-center gap-2">
                       <Button
-                        variant="default"
+                        variant="outline"
                         className="w-16 p-1"
                         onClick={() => {
                           setAction("editing");
@@ -114,8 +122,11 @@ export default function AdminDashboard() {
                       </Button>
                       <Button
                         variant="destructive"
-                        className="w-16 p-1"
-                        onClick={() => handleDeleteField(f.id)}
+                        className="w-16 p-1 "
+                        onClick={() => {
+                          setSelectedField(f);
+                          setIsModalOpen(true);
+                        }}
                       >
                         Delete
                       </Button>
@@ -127,6 +138,12 @@ export default function AdminDashboard() {
           </div>
         </>
       )}
+      <ConfirmActionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => handleDeleteField(selectedField?.id)}
+        message={`Are you sure you want to delete '${selectedField?.nombre}' ?`}
+      />
     </section>
   );
 }

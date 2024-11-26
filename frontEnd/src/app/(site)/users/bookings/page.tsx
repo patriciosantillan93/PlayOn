@@ -6,13 +6,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/useToast";
 import { ReservaFromDB } from "@/interfaces/reserva";
 import { useSession } from "next-auth/react";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import ConfirmActionModal from "@/components/ConfirmActionModal";
 
 export default function MyBookings() {
-  const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
+  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(
+    null
+  );
   const [viewPastBookings, setViewPastBookings] = useState(false);
   const { toast } = useToast();
   const session = useSession();
@@ -97,12 +101,24 @@ export default function MyBookings() {
               })
               .map((b) => (
                 <div key={b.id}>
-                  <BookingCard booking={b} onDelete={handleDeleteBooking} />
+                  <BookingCard
+                    booking={b}
+                    onDelete={() => {
+                      setSelectedBookingId(b.id);
+                      setIsModalOpen(true);
+                    }}
+                  />
                 </div>
               ))}
           </div>
         </>
       )}
+      <ConfirmActionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => handleDeleteBooking(selectedBookingId!)}
+        message={`Are you sure you want to cancel your booking?`}
+      />
     </section>
   );
 }

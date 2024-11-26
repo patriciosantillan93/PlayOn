@@ -20,7 +20,7 @@ const fieldSchema = z.object({
 
 type CreateFieldFormValues = z.infer<typeof fieldSchema>;
 
-export default function CreateFieldForm({
+export default function CreateOrEditFieldForm({
   onSuccess,
   fieldToEdit,
 }: {
@@ -28,6 +28,7 @@ export default function CreateFieldForm({
   fieldToEdit?: CanchaFromDB;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<CreateFieldFormValues>({
@@ -211,7 +212,12 @@ export default function CreateFieldForm({
         )}
       </div>
 
-      <Button type="submit" disabled={isLoading} className="w-full dark:border">
+      <Button
+        variant="outline"
+        type="submit"
+        disabled={isLoading}
+        className="w-full dark:border font-semibold text-lg"
+      >
         {isLoading ? <Spinner /> : fieldToEdit ? "Update" : "Create"}
       </Button>
     </form>
