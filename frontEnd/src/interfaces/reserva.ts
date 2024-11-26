@@ -1,3 +1,5 @@
+import { CanchaFromDB } from "./cancha";
+
 export interface TimeSlot {
   id: string;
   startTime: string;
@@ -28,6 +30,7 @@ export interface ReservaFromDB {
   id: number;
   userId: string;
   canchaId: string;
+  cancha?: CanchaFromDB;
   fecha: string;
   horaInicio: string;
   horaFin: string;

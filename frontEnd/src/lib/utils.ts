@@ -59,3 +59,17 @@ export function formatTime(timeString: string) {
   const [hours, minutes] = timeString.split(":");
   return `${hours}:${minutes}`;
 }
+
+export function getWeekDay(dateString: string): string {
+  const date = new Date(dateString);
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return daysOfWeek[date.getUTCDay()];
+}

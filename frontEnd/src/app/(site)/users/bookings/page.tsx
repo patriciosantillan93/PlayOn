@@ -9,19 +9,32 @@ import { ReservaFromDB } from "@/interfaces/reserva";
 import { useSession } from "next-auth/react";
 
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [viewPastBookings, setViewPastBookings] = useState(false);
   const { toast } = useToast();
   const session = useSession();
-  const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
+  const now = new Date();
+  const currentDateTime = now.getTime();
+
+  const futureBookings = bookings.filter((b) => {
+    const bookingDateTime = new Date(`${b.fecha}T${b.horaInicio}`).getTime();
+    return bookingDateTime > currentDateTime; // Future bookings
+  });
+
+  const pastBookings = bookings.filter((b) => {
+    const bookingDateTime = new Date(`${b.fecha}T${b.horaFin}`).getTime();
+    return bookingDateTime <= currentDateTime; // Past bookings
+  });
+
+  const displayBookings = viewPastBookings ? pastBookings : futureBookings;
+
   useEffect(() => {
-    if (session.status === "unauthenticated") {
-      router.push("/");
-    }
     fetch(`${API_URL}/reservas/usuario/${session.data?.user?.id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -67,13 +80,27 @@ export default function MyBookings() {
         <>
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">My Bookings</h1>
+            <Button
+              variant="outline"
+              onClick={() => setViewPastBookings(!viewPastBookings)}
+            >
+              {viewPastBookings ? "See upcoming" : "See past"}
+            </Button>
           </div>
           <div className="w-full flex flex-col justify-start gap-5 p-5 ">
-            {bookings.map((booking) => (
-              <div key={booking.id}>
-                <BookingCard booking={booking} onDelete={handleDeleteBooking} />
-              </div>
-            ))}
+            {displayBookings
+              .sort((a, b) => {
+                // Convert fecha strings to Date objects
+                const dateA = new Date(a.fecha);
+                const dateB = new Date(b.fecha);
+                // Return the difference in milliseconds
+                return dateB.getTime() - dateA.getTime();
+              })
+              .map((b) => (
+                <div key={b.id}>
+                  <BookingCard booking={b} onDelete={handleDeleteBooking} />
+                </div>
+              ))}
           </div>
         </>
       )}
