@@ -29,7 +29,6 @@ export default function App() {
       : fields.filter((field) => field.tipo === selectedType);
 
   const handleBookNow = (fieldId: number) => {
-
     const field = fields.find((f) => f.id === fieldId);
     if (field) {
       setSelectedField(field);
@@ -44,7 +43,7 @@ export default function App() {
     <section className="container bg-background mx-auto px-4 py-8">
       <Toaster />
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Available Fields</h1>
+        <h1 className="text-3xl font-bold">Available Courts</h1>
         <div className="flex items-center gap-4">
           <select
             value={selectedType}

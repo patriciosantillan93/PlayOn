@@ -4,7 +4,6 @@ import { DeleteBooking } from "@/actions/bookings";
 import BookingCard from "@/components/ReservaCard";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/useToast";
-import { useRouter } from "next/navigation";
 import { ReservaFromDB } from "@/interfaces/reserva";
 import { useSession } from "next-auth/react";
 

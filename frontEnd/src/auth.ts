@@ -11,7 +11,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "Credentials",
 
       async authorize(credentials) {
-      
         const { email, password } = credentials as {
           email: string;
           password: string;
@@ -44,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.username = (user as LoginResponse["payload"]).name;
         token.email = (user as LoginResponse["payload"]).email;
+        token.role = (user as LoginResponse["payload"]).role;
       }
       return token;
     },
@@ -53,11 +53,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       user.id = token.id as string;
       user.name = token.username as string;
       user.email = token.email as string;
+      user.role = token.role as string;
 
       return session;
     },
-    async authorized({auth}) {
+    async authorized({ auth }) {
       return !!auth;
-    }
+    },
   },
 });
