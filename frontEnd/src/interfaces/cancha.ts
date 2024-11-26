@@ -1,4 +1,3 @@
-import { TimeSlot } from "./reserva";
 
 export interface Cancha {
   nombre: string;
@@ -17,4 +16,14 @@ export interface CanchaFromDB extends Cancha {
   nombre: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateCanchaDto {
+  nombre: string;
+  tipo: "soccer" | "basketball" | "tennis" | "volleyball";
+  precioPorHora?: number | null;
+  imagen?: string | null;
+  descripcion?: string | null;
+  dimensiones?: string | null;
+  cantJugadores?: number | null;
 }

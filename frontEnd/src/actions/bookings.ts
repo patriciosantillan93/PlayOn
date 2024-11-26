@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 export async function CreateBooking(
   bookingData: CreateReservaDto
 ): Promise<ReservaFromDB> {
-  console.log(bookingData + " BOOKING DATA");
+
   const response = await fetch(`${API_URL}/reservas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

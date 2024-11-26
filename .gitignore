@@ -48,4 +48,4 @@ package-lock.json
 .next
 
 # Mock data
-/frontend/src/data/
+/frontEnd/src/data/

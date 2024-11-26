@@ -16,7 +16,6 @@ import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
-import { Spinner } from "@radix-ui/themes";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
 import { formatTime, generateTimeSlots } from "@/lib/utils";
 
@@ -85,7 +84,6 @@ export default function BookingModal({
 
       fetchAndSetTimeSlots();
       setSelectedTimeSlot(null);
-      console.log(selectedTimeSlot);
     }
   }, [field, selectedDate]);
 
@@ -117,7 +115,6 @@ export default function BookingModal({
       horaFin: selectedTimeSlot.endTime,
     };
     try {
-      console.log(newBooking + " NEW BOOKING");
       const insertedBooking = await CreateBooking(newBooking);
       if (!insertedBooking) {
         throw new Error("Failed to create booking");
@@ -150,15 +147,18 @@ export default function BookingModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       {field && (
-        <DialogContent className="w-full sm:w-auto max-h-screen overflow-scroll ">
+        <DialogContent
+          aria-describedby={undefined}
+          className="w-full sm:w-auto max-h-screen overflow-scroll "
+        >
           <DialogHeader>
             <DialogTitle>Book {field.nombre}</DialogTitle>
           </DialogHeader>
 
           {step === "selection" ? (
             <>
-              <div className=" flex flex-col sm:flex-row justify-center items-start gap-6 mt-4 p-2  rounded-lg ">
-                <div className="h-full w-full ">
+              <div className="flex flex-col sm:flex-row justify-center sm:place-items-center gap-6 sm:gap-0 mt-4 rounded-lg ">
+                <div className="px-5">
                   <h3 className="font-medium mb-3">Select Date</h3>
                   <DayPicker
                     disabled={{ before: new Date() }}
@@ -166,13 +166,13 @@ export default function BookingModal({
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    className="w-fit rounded-md border p-4 shadow-lg "
+                    className="rounded-md border p-4 shadow-lg "
                   />
                 </div>
-                <div className="h-full w-full ">
+                <div className=" px-5">
                   <h3 className="font-medium mb-3">Available Time Slots</h3>
-                  <ScrollArea className="rounded-md border p-4 shadow-lg">
-                    <div className="grid grid-cols-2 gap-2 p-1">
+                  <ScrollArea className="rounded-md border py-3 px-4 shadow-lg">
+                    <div className="min-w-64 grid grid-cols-2 gap-2 p-1">
                       {fieldTimeSlots.map((slot) => (
                         <Button
                           key={slot.id}
@@ -181,8 +181,7 @@ export default function BookingModal({
                               ? "default"
                               : "outline"
                           }
-                          className={`
-                          "border-2 transition-transform duration-150",
+                          className={`border-2 transition-transform duration-150 
                           ${
                             selectedTimeSlot?.id === slot.id &&
                             "border-2 border-[#0000ff]  font-bold"
@@ -325,7 +324,7 @@ export default function BookingModal({
                     !contactInfo.phone
                   }
                 >
-                  {isLoading ? <Spinner /> : "Confirm Booking"}
+                  {isLoading ? "Loading...": "Confirm Booking"}
                 </Button>
               </div>
             </div>

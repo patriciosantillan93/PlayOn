@@ -51,8 +51,23 @@ exports.updateCancha = async (req, res) => {
     const cancha = await Cancha.findByPk(req.params.canchaId);
     if (!cancha) return res.status(404).json({ error: "Cancha no encontrada" });
 
-    const { nombre, ubicacion, tipo } = req.body;
+    const {
+      nombre,
+      tipo,
+      imagen,
+      descripcion,
+      precioPorHora,
+      cantJugadores,
+      dimensiones,
+    } = req.body;
     cancha.nombre = nombre;
+    cancha.tipo = tipo;
+    cancha.imagen = imagen;
+    cancha.descripcion = descripcion;
+    cancha.precioPorHora = precioPorHora;
+    cancha.cantJugadores = cantJugadores;
+    cancha.dimensiones = dimensiones;
+
     await cancha.save();
     res.json(cancha);
   } catch (error) {

@@ -4,6 +4,7 @@ export interface UserFromDB extends User {
   id: string;
   name: string;
   email: string;
+  role?: string;
 }
 
 export interface LoginDto {
