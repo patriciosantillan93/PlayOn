@@ -50,12 +50,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         title: "Success",
         description: "You have successfully logged in.",
       });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
