@@ -6,7 +6,6 @@ import { LoginDto, UserFromDB } from "@/interfaces/user";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
 export async function login(loginData: LoginDto) {
-
   const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: {
@@ -27,6 +26,7 @@ export async function login(loginData: LoginDto) {
     id: data.user.id,
     name: data.user.name,
     email: data.user.email,
+    role: data.user.role,
   };
 
   return {
