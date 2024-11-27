@@ -19,6 +19,8 @@
     "mysql2": "^3.11.3",
     "nodemailer": "^6.9.16",
     "sequelize": "^6.37.5",
-    "server": "file:"
+    "server": "file:",
+    "winston": "^3.17.0",
+    "winston-loggly-bulk": "^3.3.2"
   }
 }
