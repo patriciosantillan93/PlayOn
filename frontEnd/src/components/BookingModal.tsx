@@ -23,10 +23,12 @@ export default function BookingModal({
   field,
   isOpen,
   onClose,
+  allowBookings,
 }: {
   field: CanchaFromDB | null;
   isOpen: boolean;
   onClose: () => void;
+  allowBookings?: boolean;
 }) {
   const [step, setStep] = useState<"selection" | "confirmation">("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -152,7 +154,9 @@ export default function BookingModal({
           className="w-full sm:w-auto max-h-screen overflow-scroll "
         >
           <DialogHeader>
-            <DialogTitle>Book {field.nombre}</DialogTitle>
+            <DialogTitle>
+              {allowBookings && "Book"} {field.nombre}
+            </DialogTitle>
           </DialogHeader>
 
           {step === "selection" ? (
@@ -191,7 +195,11 @@ export default function BookingModal({
                           }
                         `}
                           disabled={!slot.isAvailable}
-                          onClick={() => setSelectedTimeSlot(slot)}
+                          onClick={
+                            allowBookings
+                              ? () => setSelectedTimeSlot(slot)
+                              : () => {}
+                          }
                         >
                           {formatTime(slot.startTime)} -{" "}
                           {formatTime(slot.endTime)}
@@ -217,12 +225,14 @@ export default function BookingModal({
                   >
                     Cancel
                   </Button>
-                  <Button
-                    disabled={!selectedTimeSlot}
-                    onClick={() => setStep("confirmation")}
-                  >
-                    Continue
-                  </Button>
+                  {allowBookings && (
+                    <Button
+                      disabled={!selectedTimeSlot}
+                      onClick={() => setStep("confirmation")}
+                    >
+                      Continue
+                    </Button>
+                  )}
                 </div>
               </div>
             </>
@@ -311,11 +321,11 @@ export default function BookingModal({
               <div className="message">
                 <p>{message}</p>
               </div>
-
               <div className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={handleBack}>
                   Back
                 </Button>
+
                 <Button
                   onClick={handleConfirmBooking}
                   disabled={
@@ -324,7 +334,7 @@ export default function BookingModal({
                     !contactInfo.phone
                   }
                 >
-                  {isLoading ? "Loading...": "Confirm Booking"}
+                  {isLoading ? "Loading..." : "Confirm Booking"}
                 </Button>
               </div>
             </div>

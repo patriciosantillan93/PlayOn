@@ -8,10 +8,14 @@ import { Button } from "@/components/ui/button";
 import CreateOrEditFieldForm from "@/components/admin/CanchaForm";
 import { deleteField } from "@/actions/field";
 import ConfirmActionModal from "@/components/ConfirmActionModal";
+import BookingModal from "@/components/BookingModal";
+import { set } from "zod";
+import { tree } from "next/dist/build/templates/app-page";
 
 export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [fields, setFields] = useState<CanchaFromDB[]>([]);
   const [action, setAction] = useState<"creating" | "editing">("creating");
   const [selectedField, setSelectedField] = useState<CanchaFromDB | null>(null);
@@ -114,7 +118,17 @@ export default function AdminDashboard() {
                     <td className="py-2 flex flex-col sm:flex-row items-center gap-2">
                       <Button
                         variant="outline"
-                        className="w-16 p-1"
+                        className="sm:w-auto  w-20 p-1 text-wrap"
+                        onClick={() => {
+                          setIsBookingModalOpen(true);
+                          setSelectedField(f);
+                        }}
+                      >
+                        View bookings
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-20 p-1"
                         onClick={() => {
                           setAction("editing");
                           setSelectedField(f);
@@ -124,10 +138,10 @@ export default function AdminDashboard() {
                       </Button>
                       <Button
                         variant="destructive"
-                        className="w-16 p-1 "
+                        className="w-20 p-1 "
                         onClick={() => {
                           setSelectedField(f);
-                          setIsModalOpen(true);
+                          setIsConfirmModalOpen(true);
                         }}
                       >
                         Delete
@@ -141,10 +155,18 @@ export default function AdminDashboard() {
         </>
       )}
       <ConfirmActionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={() => handleDeleteField(selectedField?.id)}
         message={`Are you sure you want to delete '${selectedField?.nombre}' ?`}
+      />
+      <BookingModal
+        field={selectedField}
+        isOpen={isBookingModalOpen}
+        onClose={() => {
+          setIsBookingModalOpen(false);
+          setSelectedField(null);
+        }}
       />
     </section>
   );

@@ -66,6 +66,7 @@ export default function App() {
       </div>
 
       <BookingModal
+        allowBookings
         field={selectedField}
         isOpen={isBookingModalOpen}
         onClose={() => {
