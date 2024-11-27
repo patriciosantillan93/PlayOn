@@ -1,16 +1,40 @@
 // server/controllers/reservaController.js
 const Reserva = require('../models/Reserva');
-const Cancha = require('../models/Cancha');
 const User = require('../models/User');
+const emailController = require("../controllers/emailController"); 
+const logger = require("../config/logger"); 
 
 exports.createReserva = async (req, res) => {
     try {
         const { userId, canchaId, fecha, horaInicio, horaFin } = req.body;
 
+        // Fetch user and create reservation logic
+        const user = await User.findByPk(userId);
+        const email = user?.email;
         const reserva = await Reserva.create({ userId, canchaId, fecha, horaInicio, horaFin });
-        res.status(201).json(reserva);
+
+        // Send email
+        const emailData = {
+            email,
+            field: `Cancha ${canchaId}`,
+            date: fecha,
+            timeSlot: `${horaInicio} - ${horaFin}`,
+        };
+
+        try {
+            await emailController.sendEmailUtil(emailData);
+        } catch (emailError) {
+            logger.error(`Error al enviar el mail de confirmacion a: ${emailError.message}`);
+        }
+
+        // Respond to client
+        res.status(201).json({
+            message: "Reserva creada exitosamente.",
+            reserva,
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear la reserva' });
+        logger.error(`Error creating reservation: ${error.message}`);
+        res.status(500).json({ message: "Error al crear la reserva", error: error.message });
     }
 };
 
