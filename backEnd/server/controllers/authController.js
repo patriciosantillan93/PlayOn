@@ -56,6 +56,7 @@ exports.login = async (req, res) => {
         id: user.id,
         name: user.username, // Or whatever field you want
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
