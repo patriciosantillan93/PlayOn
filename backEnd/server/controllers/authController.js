@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
     }
 
     // Crear nuevo usuario
-    const user = await User.create({ username, email, password });
+    const user = await User.create({ username, email, password, role: "user" });
     res.status(201).json({ message: "Usuario registrado exitosamente" });
   } catch (error) {
     res.status(500).json({
@@ -56,6 +56,7 @@ exports.login = async (req, res) => {
         id: user.id,
         name: user.username, // Or whatever field you want
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {

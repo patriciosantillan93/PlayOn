@@ -10,7 +10,7 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { TimeSlot } from "@/interfaces/reserva";
+import { ReservaFromDB, TimeSlot } from "@/interfaces/reserva";
 import { CanchaFromDB } from "@/interfaces/cancha";
 import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
@@ -18,6 +18,7 @@ import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
 import { formatTime, generateTimeSlots } from "@/lib/utils";
+import { set } from "react-hook-form";
 
 export default function BookingModal({
   field,
@@ -32,6 +33,7 @@ export default function BookingModal({
 }) {
   const [step, setStep] = useState<"selection" | "confirmation">("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
   const [fieldTimeSlots, setFieldTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
     null
@@ -73,6 +75,7 @@ export default function BookingModal({
             formattedDate,
             field?.id
           );
+          console.log(selectedDateExistingBookings);
           setFieldTimeSlots(timeSlots);
         } catch (error) {
           console.error("Error fetching reservations:", error);
