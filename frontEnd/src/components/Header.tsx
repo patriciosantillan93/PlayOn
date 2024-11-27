@@ -55,7 +55,7 @@ export default function Header() {
             )}
             {user?.role === "admin" && (
               <Link
-                href={`/admin/dashboard`}
+                href={`/dashboard`}
                 className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
               >
                 Admin

@@ -1,7 +1,7 @@
 // server/models/User.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const bcrypt = require('bcryptjs');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const bcrypt = require("bcryptjs");
 
 const User = sequelize.define('User', {
     username: {
@@ -29,7 +29,7 @@ const User = sequelize.define('User', {
 
 // Hook para encriptar la contraseña antes de guardar el usuario
 User.beforeCreate(async (user) => {
-    user.password = await bcrypt.hash(user.password, 10);
+  user.password = await bcrypt.hash(user.password, 10);
 });
 
 module.exports = User;

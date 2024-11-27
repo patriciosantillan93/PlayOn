@@ -7,8 +7,8 @@ export default async function middleware(req: NextRequest) {
   const session = await auth();
   const user = session?.user as UserFromDB;
   if (
-    !session // ||
-    // (req.nextUrl.pathname === "/dashboard" && user.role !== "admin")
+    !session ||
+    (req.nextUrl.pathname === "/dashboard" && user.role !== "admin")
   ) {
     return Response.redirect(new URL("/", req.url));
   }

@@ -10,7 +10,7 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { TimeSlot } from "@/interfaces/reserva";
+import { ReservaFromDB, TimeSlot } from "@/interfaces/reserva";
 import { CanchaFromDB } from "@/interfaces/cancha";
 import { useToast } from "@/hooks/useToast";
 import { DayPicker } from "react-day-picker";
@@ -18,18 +18,22 @@ import "react-day-picker/style.css";
 import { useSession } from "next-auth/react";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
 import { formatTime, generateTimeSlots } from "@/lib/utils";
+import { set } from "react-hook-form";
 
 export default function BookingModal({
   field,
   isOpen,
   onClose,
+  allowBookings,
 }: {
   field: CanchaFromDB | null;
   isOpen: boolean;
   onClose: () => void;
+  allowBookings?: boolean;
 }) {
   const [step, setStep] = useState<"selection" | "confirmation">("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
   const [fieldTimeSlots, setFieldTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
     null
@@ -71,6 +75,7 @@ export default function BookingModal({
             formattedDate,
             field?.id
           );
+          console.log(selectedDateExistingBookings);
           setFieldTimeSlots(timeSlots);
         } catch (error) {
           console.error("Error fetching reservations:", error);
@@ -152,7 +157,9 @@ export default function BookingModal({
           className="w-full sm:w-auto max-h-screen overflow-scroll "
         >
           <DialogHeader>
-            <DialogTitle>Book {field.nombre}</DialogTitle>
+            <DialogTitle>
+              {allowBookings && "Book"} {field.nombre}
+            </DialogTitle>
           </DialogHeader>
 
           {step === "selection" ? (
@@ -191,7 +198,11 @@ export default function BookingModal({
                           }
                         `}
                           disabled={!slot.isAvailable}
-                          onClick={() => setSelectedTimeSlot(slot)}
+                          onClick={
+                            allowBookings
+                              ? () => setSelectedTimeSlot(slot)
+                              : () => {}
+                          }
                         >
                           {formatTime(slot.startTime)} -{" "}
                           {formatTime(slot.endTime)}
@@ -217,12 +228,14 @@ export default function BookingModal({
                   >
                     Cancel
                   </Button>
-                  <Button
-                    disabled={!selectedTimeSlot}
-                    onClick={() => setStep("confirmation")}
-                  >
-                    Continue
-                  </Button>
+                  {allowBookings && (
+                    <Button
+                      disabled={!selectedTimeSlot}
+                      onClick={() => setStep("confirmation")}
+                    >
+                      Continue
+                    </Button>
+                  )}
                 </div>
               </div>
             </>
@@ -311,11 +324,11 @@ export default function BookingModal({
               <div className="message">
                 <p>{message}</p>
               </div>
-
               <div className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={handleBack}>
                   Back
                 </Button>
+
                 <Button
                   onClick={handleConfirmBooking}
                   disabled={
@@ -324,7 +337,7 @@ export default function BookingModal({
                     !contactInfo.phone
                   }
                 >
-                  {isLoading ? "Loading...": "Confirm Booking"}
+                  {isLoading ? "Loading..." : "Confirm Booking"}
                 </Button>
               </div>
             </div>
