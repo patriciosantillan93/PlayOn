@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { AuthModal } from "./auth/AuthModal";
 import { useState } from "react";
 import { ThemeToggle } from "./ui/ThemeToggle";
+import { UserFromDB } from "@/interfaces/user";
 
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Header() {
     "login"
   );
   const { data: session } = useSession();
+  const user = session?.user as UserFromDB;
 
   const openAuthModal = (tab: "login" | "register") => {
     setAuthModalTab(tab);
@@ -35,7 +37,7 @@ export default function Header() {
               href="/"
               className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
             >
-              Fields
+              Courts
             </Link>
             <Link
               href="/contact"
@@ -43,7 +45,7 @@ export default function Header() {
             >
               Contact
             </Link>
-            {session?.user && (
+            {user && (
               <Link
                 href={`/users/bookings`}
                 className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
@@ -51,15 +53,23 @@ export default function Header() {
                 My Bookings
               </Link>
             )}
+            {user?.role === "admin" && (
+              <Link
+                href={`/admin/dashboard`}
+                className="rounded-lg p-2  hover:shadow-md dark:shadow-foreground "
+              >
+                Admin
+              </Link>
+            )}
           </nav>
           <div className="flex flex-row items-center gap-2">
             <div className="hidden sm:flex items-center ">
               <ThemeToggle />
             </div>
-            {session?.user ? (
+            {user ? (
               <div className="flex items-center gap-4">
                 <span className="text-muted-foreground">
-                  Welcome, {session.user.name}
+                  Welcome, {user.name}
                 </span>
 
                 <Button
@@ -115,7 +125,7 @@ export default function Header() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             href="/"
           >
-            Fields
+            Courts
           </Link>
           <Link
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -124,7 +134,16 @@ export default function Header() {
           >
             Contact
           </Link>
-          {session?.user && (
+          {user?.role === "admin" && (
+            <Link
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              href={`/dashboard`}
+              className="px-5 py-3 hover:bg-gray-400"
+            >
+              Admin
+            </Link>
+          )}
+          {user && (
             <>
               <Link
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

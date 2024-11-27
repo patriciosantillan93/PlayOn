@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "../../components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Tabs,
   TabsContent,
@@ -23,7 +23,7 @@ export function AuthModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:w-1/4 w-full ">
+      <DialogContent aria-describedby={undefined} className="sm:w-1/4 w-full ">
         <DialogTitle className="text-center">Welcome to PlayOn</DialogTitle>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">

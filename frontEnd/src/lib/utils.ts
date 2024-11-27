@@ -27,10 +27,6 @@ export function generateTimeSlots(
   );
   const now = new Date();
   const isToday = currentDate.toDateString() === now.toDateString();
-  console.log("date", date);
-  console.log("isToday", isToday);
-  console.log("currentDate", currentDate);
-  console.log("now", now);
 
   for (let hour = startHour; hour < endHour; hour++) {
     const id = `${fieldId ?? "999"}-${date}-${hour}`;
@@ -62,4 +58,18 @@ export function formatTime(timeString: string) {
   // Split the time string by ":" and take the first two parts (HH and MM)
   const [hours, minutes] = timeString.split(":");
   return `${hours}:${minutes}`;
+}
+
+export function getWeekDay(dateString: string): string {
+  const date = new Date(dateString);
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return daysOfWeek[date.getUTCDay()];
 }
