@@ -60,8 +60,23 @@ exports.deleteReserva = async (req, res) => {
     try {
         const reserva = await Reserva.findByPk(req.params.reservaId);
         if (!reserva) return res.status(404).json({ error: 'Reserva no encontrada' });
-
+      
         await reserva.destroy();
+        
+        // Send email
+        const emailData = {
+            email,
+            field: `Cancha ${canchaId}`,
+            date: fecha,
+            timeSlot: `${horaInicio} - ${horaFin}`,
+        };
+
+        try {
+            await emailController.sendEmailUtil(emailData);
+        } catch (emailError) {
+            logger.error(`Error al enviar el mail de cancelacion a: ${emailError.message}`);
+        }
+
         res.json({ message: 'Reserva cancelada' });
     } catch (error) {
         res.status(500).json({ error: 'Error al cancelar la reserva' });
