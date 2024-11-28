@@ -21,6 +21,9 @@
     "@radix-ui/react-tabs": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.2",
     "@radix-ui/themes": "^3.1.6",
+    "@stripe/react-stripe-js": "^3.0.0",
+    "@stripe/stripe-js": "^5.2.0",
+    "axios": "^1.7.8",
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.13",
     "lucide-react": "^0.456.0",
@@ -34,6 +37,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.2",
     "react-tailwindcss-datepicker": "^1.7.2",
+    "stripe": "^17.4.0",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8"
   },

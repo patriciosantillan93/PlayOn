@@ -90,7 +90,7 @@ export default function AdminDashboard() {
                 </div>
                 <CreateOrEditFieldForm
                   onSuccess={() => window.location.reload()}
-                  fieldToEdit={selectedField || undefined}
+                  fieldToEdit={selectedField!}
                 />
               </div>
             )}

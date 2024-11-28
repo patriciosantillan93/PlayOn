@@ -67,7 +67,7 @@ export default function Header() {
               <ThemeToggle />
             </div>
             {user ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 ml-3">
                 <span className="text-muted-foreground">
                   Welcome, {user.name}
                 </span>
