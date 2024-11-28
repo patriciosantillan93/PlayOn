@@ -1,8 +1,7 @@
-
 export interface Cancha {
   nombre: string;
   tipo: "soccer" | "basketball" | "tennis" | "volleyball";
-  precioPorHora?: number | null;
+  precioPorHora: number;
   imagen?: string | null;
   descripcion?: string | null;
   dimensiones?: string | null;

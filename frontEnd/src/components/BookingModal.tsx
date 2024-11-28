@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/useToast";
 import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import PaymentForm from "./payment/PaymentForm";
 import {
   Dialog,
   DialogContent,
@@ -10,15 +17,10 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { ReservaFromDB, TimeSlot } from "@/interfaces/reserva";
+import { TimeSlot } from "@/interfaces/reserva";
 import { CanchaFromDB } from "@/interfaces/cancha";
-import { useToast } from "@/hooks/useToast";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
-import { useSession } from "next-auth/react";
 import { CreateBooking, GetBookingsByFieldID } from "@/actions/bookings";
 import { formatTime, generateTimeSlots } from "@/lib/utils";
-import { set } from "react-hook-form";
 
 export default function BookingModal({
   field,
@@ -33,7 +35,6 @@ export default function BookingModal({
 }) {
   const [step, setStep] = useState<"selection" | "confirmation">("selection");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [bookings, setBookings] = useState<ReservaFromDB[]>([]);
   const [fieldTimeSlots, setFieldTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
     null
@@ -44,10 +45,14 @@ export default function BookingModal({
     phone: "",
     notes: "",
   });
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { data: session } = useSession();
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  );
 
   // Populate contact info with user details when available
   useEffect(() => {
@@ -141,7 +146,28 @@ export default function BookingModal({
       }
     } finally {
       setIsLoading(false);
+      setStep("selection");
     }
+  }
+
+  function handleCheckout() {
+    if (!session || !session.user?.id) {
+      toast({
+        title: "Booking Error",
+        description: "Please login to confirm booking.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!selectedTimeSlot) {
+      toast({
+        title: "Booking Error",
+        description: "Please select a time slot.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsPaymentModalOpen(true);
   }
 
   const handleBack = () => {
@@ -150,7 +176,13 @@ export default function BookingModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        onClose();
+        setStep("selection");
+      }}
+    >
       {field && (
         <DialogContent
           aria-describedby={undefined}
@@ -161,8 +193,8 @@ export default function BookingModal({
               {allowBookings && "Book"} {field.nombre}
             </DialogTitle>
           </DialogHeader>
-
-          {step === "selection" ? (
+          {/* DATE SELECTION */}
+          {step === "selection" && (
             <>
               <div className="flex flex-col sm:flex-row justify-center sm:place-items-center gap-6 sm:gap-0 mt-4 rounded-lg ">
                 <div className="px-5">
@@ -239,7 +271,9 @@ export default function BookingModal({
                 </div>
               </div>
             </>
-          ) : (
+          )}
+          {/* BOOKING CONFIRMATION  */}
+          {step === "confirmation" && selectedTimeSlot && (
             <div className=" mt-4 space-y-6">
               <div className="bg-muted/50 p-4 rounded-lg space-y-2">
                 <div className="flex justify-between">
@@ -319,6 +353,31 @@ export default function BookingModal({
                     placeholder="Any special requirements..."
                   />
                 </div>
+                {isPaymentModalOpen && (
+                  <Dialog
+                    open={isPaymentModalOpen}
+                    onOpenChange={() =>
+                      setIsPaymentModalOpen(!isPaymentModalOpen)
+                    }
+                  >
+                    <DialogContent
+                      aria-describedby={undefined}
+                      className="w-full sm:w-1/4 flex flex-col gap-8 "
+                    >
+                      <DialogHeader>
+                        <DialogTitle>Confirm Payment</DialogTitle>
+                      </DialogHeader>
+
+                      <Elements stripe={stripePromise}>
+                        <Label htmlFor="credit-card">Card details:</Label>
+                        <PaymentForm
+                          amount={field.precioPorHora}
+                          onSuccess={handleConfirmBooking}
+                        />
+                      </Elements>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
 
               <div className="message">
@@ -330,14 +389,14 @@ export default function BookingModal({
                 </Button>
 
                 <Button
-                  onClick={handleConfirmBooking}
+                  onClick={handleCheckout}
                   disabled={
                     !contactInfo.name ||
                     !contactInfo.email ||
                     !contactInfo.phone
                   }
                 >
-                  {isLoading ? "Loading..." : "Confirm Booking"}
+                  {isLoading ? "Loading..." : "Proceed to payment"}
                 </Button>
               </div>
             </div>
