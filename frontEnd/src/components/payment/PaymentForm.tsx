@@ -36,8 +36,8 @@ export default function PaymentForm({
       });
       if (checkout.paymentIntent?.status !== "succeeded") {
         toast({
-          title: "Error",
-          description: "Payment failed.",
+          title: "Payment failed",
+          description: checkout.error?.message,
           variant: "destructive",
         });
         throw new Error("Payment failed.");

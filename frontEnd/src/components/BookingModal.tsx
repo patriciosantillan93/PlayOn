@@ -156,7 +156,13 @@ export default function BookingModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        onClose();
+        setStep("selection");
+      }}
+    >
       {field && (
         <DialogContent
           aria-describedby={undefined}
