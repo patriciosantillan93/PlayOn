@@ -150,6 +150,26 @@ export default function BookingModal({
     }
   }
 
+  function handleCheckout() {
+    if (!session || !session.user?.id) {
+      toast({
+        title: "Booking Error",
+        description: "Please login to confirm booking.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!selectedTimeSlot) {
+      toast({
+        title: "Booking Error",
+        description: "Please select a time slot.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsPaymentModalOpen(true);
+  }
+
   const handleBack = () => {
     setMessage("");
     setStep("selection");
@@ -369,7 +389,7 @@ export default function BookingModal({
                 </Button>
 
                 <Button
-                  onClick={() => setIsPaymentModalOpen(true)}
+                  onClick={handleCheckout}
                   disabled={
                     !contactInfo.name ||
                     !contactInfo.email ||
