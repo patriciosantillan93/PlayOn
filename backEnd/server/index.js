@@ -1,6 +1,6 @@
 // server/index.js
-const fs = require('fs');
-const https = require('https');
+//const fs = require('fs');
+//const https = require('https');
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -51,19 +51,19 @@ app.get("/canchas", async (req, res) => {
 });
 
 // Iniciar servidor
-//const PORT = process.env.PORT || 5000;
-//app.listen(PORT, () => {
-//  console.log(`Servidor corriendo en el puerto ${PORT}`);
-//});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+ console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
 
 // Load SSL certificates
-const sslOptions = {
-  key: fs.readFileSync('./certs/server.key'), // Replace with the path to your private key
-  cert: fs.readFileSync('./certs/server.cert'), // Replace with the path to your certificate
-};
+// const sslOptions = {
+//   key: fs.readFileSync('./certs/server.key'), // Replace with the path to your private key
+//   cert: fs.readFileSync('./certs/server.cert'), // Replace with the path to your certificate
+// };
 
-// Start HTTPS server on port 5000
-const PORT = process.env.PORT || 5000;
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`HTTPS server running on port ${PORT}`);
-});
+// // Start HTTPS server on port 5000
+// const PORT = process.env.PORT || 5000;
+// https.createServer(sslOptions, app).listen(PORT, () => {
+//   console.log(`HTTPS server running on port ${PORT}`);
+// });
